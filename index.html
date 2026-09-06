@@ -18,7 +18,7 @@
             --accent-magenta: #ec4899;
             --accent-gold: #facc15;
             --bg-dark: #05050d;
-            --panel-bg: rgba(13, 10, 28, 0.90);
+            --panel-bg: rgba(13, 10, 28, 0.92);
             --panel-border: rgba(168, 85, 247, 0.5);
             --font-title: 'Orbitron', sans-serif;
             --font-ui: 'Chakra Petch', sans-serif;
@@ -86,10 +86,10 @@
             width: 100vw;
             height: 100vh;
             display: grid;
-            grid-template-columns: 1fr 310px;
+            grid-template-columns: 1fr 340px;
             grid-template-rows: auto 1fr;
             pointer-events: none;
-            padding: 18px 24px;
+            padding: 16px 22px;
             gap: 16px;
             transition: opacity 0.5s ease;
         }
@@ -110,50 +110,60 @@
             height: 100%;
         }
 
-        /* HUGE CENTERED 2-LINE TITLE: ZERO / HORIZON */
+        /* HUGE TITLE: ZERO / HORIZON - LOWER & SHIFTED SLIGHTLY TO THE RIGHT */
         .title-block {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            padding-top: 10px;
+            padding-top: 50px; /* Más abajo */
+            padding-left: 50px; /* Desplazado ligeramente hacia la derecha */
             pointer-events: auto;
             width: 100%;
+            margin: 0 auto;
         }
 
         .word-zero {
             font-family: var(--font-title);
-            font-size: clamp(54px, 8.2vw, 105px);
+            font-size: clamp(60px, 8.4vw, 110px);
             font-weight: 900;
-            letter-spacing: 24px;
-            line-height: 0.92;
+            letter-spacing: 34px;
+            line-height: 0.95;
+            width: 100%;
+            text-indent: 34px;
             background: linear-gradient(180deg, #ffffff 0%, #e9d5ff 35%, #c084fc 70%, #9333ea 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 40px rgba(168, 85, 247, 0.95));
+            filter: drop-shadow(0 0 45px rgba(168, 85, 247, 0.95));
             text-transform: uppercase;
+            transform: scaleX(1.15);
+            transform-origin: center;
         }
 
         .word-horizon {
             font-family: var(--font-title);
-            font-size: clamp(58px, 9.2vw, 120px);
+            font-size: clamp(64px, 9.2vw, 124px);
             font-weight: 900;
-            letter-spacing: 28px;
-            line-height: 0.92;
+            letter-spacing: 36px;
+            line-height: 0.95;
+            width: 100%;
+            text-indent: 36px;
             background: linear-gradient(180deg, #ffffff 0%, #f3e8ff 35%, #a855f7 70%, #7e22ce 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 50px rgba(168, 85, 247, 1));
+            filter: drop-shadow(0 0 55px rgba(168, 85, 247, 1));
             text-transform: uppercase;
+            transform: scaleX(1.15);
+            transform-origin: center;
             animation: titlePulse 4s infinite alternate ease-in-out;
         }
 
         @keyframes titlePulse {
             0% { filter: drop-shadow(0 0 35px rgba(168, 85, 247, 0.8)); }
-            100% { filter: drop-shadow(0 0 70px rgba(168, 85, 247, 1)); }
+            100% { filter: drop-shadow(0 0 75px rgba(168, 85, 247, 1)); }
         }
 
-        /* ── BIGGER, TALLER LEFT MENU (Play, Armas, Base de Batalla, Colección, Agentes, Tienda) ── */
+        /* ── LEFT MENU (Play, Armas, Base de Batalla, Colección, Agentes, Tienda) ── */
         .left-menu-list {
             display: flex;
             flex-direction: column;
@@ -224,7 +234,7 @@
             box-shadow: 0 0 45px var(--secondary-glow);
         }
 
-        /* ── RIGHT COLUMN: FULL TALL CARDS (Avatar -> GAME Box -> Actualización & [A] on top of [B]) ── */
+        /* ── RIGHT COLUMN: SOLID, FULL-HEIGHT TALL CARDS WITHOUT EMPTY GAPS ── */
         .right-full-column {
             grid-column: 2;
             grid-row: 1 / -1;
@@ -233,36 +243,36 @@
             gap: 14px;
             height: 100%;
             pointer-events: auto;
-            justify-content: space-between;
+            justify-content: stretch;
         }
 
-        /* 1. TALL TOP BOX: AVATAR / CHARACTER */
+        /* 1. TOP BOX: AVATAR / CHARACTER (Full fill) */
         .avatar-full-box {
             background: var(--panel-bg);
             border: 2px solid var(--panel-border);
-            border-radius: 10px;
-            padding: 20px 16px;
+            border-radius: 12px;
+            padding: 22px 18px;
             backdrop-filter: blur(14px);
             box-shadow: 0 0 30px rgba(168, 85, 247, 0.3);
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            gap: 10px;
-            flex: 1;
+            gap: 12px;
+            flex: 1.1;
             justify-content: center;
         }
         .avatar-silhouette-box {
-            width: 88px;
-            height: 88px;
-            border-radius: 14px;
+            width: 100px;
+            height: 100px;
+            border-radius: 16px;
             background: radial-gradient(circle at center, #7e22ce 0%, #1e1b4b 100%);
-            border: 2.5px solid var(--primary-neon);
+            border: 3px solid var(--primary-neon);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 46px;
-            box-shadow: 0 0 25px var(--primary-glow);
+            font-size: 54px;
+            box-shadow: 0 0 28px var(--primary-glow);
             position: relative;
         }
         .avatar-tag {
@@ -271,168 +281,184 @@
             right: -6px;
             background: var(--accent-magenta);
             color: #fff;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 800;
-            padding: 2px 7px;
+            padding: 2px 8px;
             border-radius: 4px;
             font-family: var(--font-tech);
+            box-shadow: 0 0 10px var(--accent-magenta);
         }
         .avatar-username {
             font-family: var(--font-title);
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 800;
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
             color: #fff;
         }
         .avatar-rank-text {
             font-family: var(--font-tech);
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 14px;
+            font-weight: 700;
             color: var(--secondary-neon);
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
             text-transform: uppercase;
         }
         .avatar-chips {
             display: flex;
-            gap: 14px;
+            gap: 16px;
             font-family: var(--font-tech);
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 700;
             margin-top: 4px;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 6px 14px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        /* 2. TALL MIDDLE BOX: GAME CONTAINER WITH PALETTE */
+        /* 2. MIDDLE BOX: GAME CONTAINER WITH BIG COLOR BLOCKS (Full fill) */
         .game-full-box {
             background: var(--panel-bg);
             border: 2px solid var(--panel-border);
-            border-radius: 10px;
-            padding: 18px 16px;
+            border-radius: 12px;
+            padding: 20px 18px;
             backdrop-filter: blur(14px);
             box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
             align-items: center;
-            flex: 0.9;
+            flex: 1.1;
             justify-content: center;
         }
         .game-emblem {
             font-family: var(--font-title);
-            font-size: 22px;
+            font-size: 26px;
             font-weight: 900;
-            letter-spacing: 6px;
+            letter-spacing: 8px;
             color: var(--secondary-neon);
             border: 2px solid var(--secondary-neon);
-            padding: 6px 24px;
-            border-radius: 5px;
-            background: rgba(56, 189, 248, 0.12);
-            box-shadow: 0 0 20px var(--secondary-glow);
-            text-shadow: 0 0 10px var(--secondary-neon);
+            padding: 8px 0;
+            border-radius: 6px;
+            background: rgba(56, 189, 248, 0.15);
+            box-shadow: 0 0 25px var(--secondary-glow);
+            text-shadow: 0 0 12px var(--secondary-neon);
             width: 100%;
             text-align: center;
         }
         .game-color-label {
             font-family: var(--font-tech);
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 14px;
+            font-weight: 700;
             color: #cbd5e1;
             letter-spacing: 2px;
             text-transform: uppercase;
         }
         .color-palette {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 7px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
             width: 100%;
         }
         .color-dot {
-            height: 30px;
-            border-radius: 5px;
-            border: 2px solid transparent;
+            height: 40px;
+            border-radius: 6px;
+            border: 2.5px solid transparent;
             cursor: pointer;
             transition: all 0.2s;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
         }
         .color-dot:hover {
-            transform: scale(1.15);
+            transform: scale(1.1);
             border-color: #fff;
         }
         .color-dot.active {
             border-color: #fff;
-            box-shadow: 0 0 14px currentColor;
+            box-shadow: 0 0 18px currentColor;
         }
 
-        /* 3. TALL LOWER BOX: ACTUALIZACIÓN & [A] ON TOP OF [B] (Exact Sketch Structure) */
+        /* 3. LOWER BOX: ACTUALIZACIÓN & PROMINENT [A] ON TOP OF [B] (Full fill, no empty space) */
         .action-bottom-box {
             background: var(--panel-bg);
             border: 2px solid var(--panel-border);
-            border-radius: 10px;
-            padding: 16px;
+            border-radius: 12px;
+            padding: 20px 18px;
             backdrop-filter: blur(14px);
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 16px;
             align-items: center;
-            flex: 1.2;
+            flex: 1.3;
             justify-content: center;
         }
         .update-title-badge {
             font-family: var(--font-tech);
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 2px;
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: 2.5px;
             color: #4ade80;
             text-transform: uppercase;
             display: flex;
             align-items: center;
             gap: 8px;
+            background: rgba(74, 222, 128, 0.1);
+            padding: 6px 16px;
+            border-radius: 6px;
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            width: 100%;
+            justify-content: center;
         }
         .status-pulse-dot {
-            width: 9px;
-            height: 9px;
+            width: 10px;
+            height: 10px;
             background-color: #4ade80;
             border-radius: 50%;
-            box-shadow: 0 0 12px #4ade80;
+            box-shadow: 0 0 14px #4ade80;
             animation: blink 1.5s infinite;
         }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-        /* Vertical Stack: [A] ON TOP OF [B] (As in Drawing) */
+        /* Vertical Stack: [A] ON TOP OF [B] (Bigger, Filled) */
         .ab-buttons-column {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
             width: 100%;
             align-items: center;
         }
         .ab-item-row {
             display: flex;
             align-items: center;
-            gap: 16px;
-            width: 85%;
+            gap: 18px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(168, 85, 247, 0.25);
             justify-content: flex-start;
         }
         .action-circle-btn {
-            width: 52px;
-            height: 52px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            background: radial-gradient(circle at 35% 35%, #581c87, #110a26);
-            border: 2.5px solid var(--primary-neon);
+            background: radial-gradient(circle at 35% 35%, #6b21a8, #110a26);
+            border: 3px solid var(--primary-neon);
             display: flex;
             align-items: center;
             justify-content: center;
             font-family: var(--font-title);
-            font-size: 24px;
+            font-size: 26px;
             font-weight: 900;
             color: #ffffff;
             cursor: pointer;
-            box-shadow: 0 0 20px var(--primary-glow);
+            box-shadow: 0 0 22px var(--primary-glow);
             transition: all 0.2s;
             flex-shrink: 0;
         }
         .action-circle-btn:hover {
             transform: scale(1.12);
             border-color: var(--secondary-neon);
-            box-shadow: 0 0 30px var(--secondary-glow);
+            box-shadow: 0 0 32px var(--secondary-glow);
             color: var(--secondary-neon);
         }
         .action-circle-btn:active {
@@ -440,10 +466,10 @@
         }
         .ab-label {
             font-family: var(--font-tech);
-            font-size: 13px;
-            font-weight: 700;
-            color: #cbd5e1;
-            letter-spacing: 1.5px;
+            font-size: 15px;
+            font-weight: 800;
+            color: #f1f5f9;
+            letter-spacing: 2px;
             text-transform: uppercase;
         }
 
@@ -468,7 +494,7 @@
         .top-sub-bar {
             position: absolute;
             top: 18px;
-            right: 340px;
+            right: 370px;
             display: flex;
             gap: 10px;
             pointer-events: auto;
@@ -741,9 +767,9 @@
             <button class="ctrl-btn-small" id="btn-controls-modal">🎮 CONTROLES</button>
         </div>
 
-        <!-- Main Stage Area: Centered Huge ZERO HORIZON Title + Big Left Menu + Centered 3D Car -->
+        <!-- Main Stage Area: Lower & Shifted ZERO HORIZON Title + Big Left Menu + Centered 3D Car -->
         <div class="main-stage-area">
-            <!-- 2-Line Huge Centered Title exactly as in the drawing -->
+            <!-- 2-Line Huge Title: Positioned Lower & Shifted Right -->
             <div class="title-block">
                 <h1 class="word-zero">ZERO</h1>
                 <h1 class="word-horizon">HORIZON</h1>
@@ -782,9 +808,9 @@
             </div>
         </div>
 
-        <!-- Right Lateral Column (Tall Avatar Box -> Tall GAME Box & Colors -> Tall Actualización & [A] on [B]) -->
+        <!-- Right Lateral Column: SOLID FULL-HEIGHT PANELS WITHOUT GAPS -->
         <aside class="right-full-column">
-            <!-- 1. Tall Top Avatar Box -->
+            <!-- 1. Tall Avatar Box (Filled) -->
             <div class="avatar-full-box">
                 <div class="avatar-silhouette-box">
                     👤
@@ -798,7 +824,7 @@
                 </div>
             </div>
 
-            <!-- 2. Tall Middle GAME Box with Color Palette -->
+            <!-- 2. Tall GAME Box with Big Color Blocks (Filled) -->
             <div class="game-full-box">
                 <div class="game-emblem">GAME</div>
                 <div class="game-color-label">Personalización Neón</div>
@@ -812,7 +838,7 @@
                 </div>
             </div>
 
-            <!-- 3. Tall Bottom Actualización & Action Buttons: [A] ON TOP OF [B] (Exact Sketch Structure) -->
+            <!-- 3. Tall Actualización & Big Stacked Buttons: [A] on [B] (Filled, No empty space) -->
             <div class="action-bottom-box">
                 <div class="update-title-badge">
                     <span class="status-pulse-dot"></span>
@@ -946,7 +972,7 @@
 
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 200);
         // Position camera to frame car centered in the stage area
-        camera.position.set(-0.4, 2.3, 7.8);
+        camera.position.set(-0.3, 2.3, 7.8);
 
         const carGroup = new THREE.Group();
         scene.add(carGroup);
@@ -1155,7 +1181,7 @@
             isPlayingMatch = false;
             document.getElementById('game-ui').classList.remove('hidden');
             document.getElementById('gameplay-hud').classList.remove('active');
-            camera.position.set(-0.4, 2.3, 7.8);
+            camera.position.set(-0.3, 2.3, 7.8);
             camera.lookAt(0, 0.6, 0);
             carGroup.position.set(0, 0, 0);
             carGroup.rotation.set(0, 0, 0);
