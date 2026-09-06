@@ -655,6 +655,161 @@
             box-shadow: 0 0 30px rgba(239, 68, 68, 0.7);
         }
 
+        /* ── PLAYER HP / SHIELD BAR IN HUD ── */
+        .hud-hp-box {
+            background: var(--panel-bg);
+            border: 2px solid var(--accent-green);
+            padding: 8px 14px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            width: 170px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .hud-hp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--font-tech);
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+        .hp-title {
+            color: #4ade80;
+        }
+        .hp-val {
+            color: #fff;
+        }
+        .hud-hp-track {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .hud-hp-fill {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, #22c55e, #4ade80);
+            border-radius: 4px;
+            transition: width 0.25s ease-out, background 0.25s;
+        }
+
+        /* Red damage screen flash */
+        #damage-flash-overlay {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, transparent 30%, rgba(239, 68, 68, 0.6) 100%);
+            pointer-events: none;
+            z-index: 55;
+            opacity: 0;
+            transition: opacity 0.15s ease-out;
+        }
+
+        /* ── ENDGAME VICTORY / DEFEAT MODAL ── */
+        .race-end-box {
+            width: 90%;
+            max-width: 580px;
+            padding: 34px 28px;
+            align-items: center;
+            text-align: center;
+            gap: 18px;
+            box-shadow: 0 0 60px rgba(168, 85, 247, 0.6);
+        }
+        .race-end-emblem {
+            font-size: 68px;
+            animation: zoomPulse 1.2s infinite alternate ease-in-out;
+        }
+        .race-end-title {
+            font-family: var(--font-title);
+            font-size: clamp(32px, 5vw, 44px);
+            font-weight: 900;
+            letter-spacing: 4px;
+        }
+        .race-end-subtitle {
+            font-family: var(--font-tech);
+            font-size: 16px;
+            font-weight: 600;
+            color: #cbd5e1;
+            letter-spacing: 1.5px;
+        }
+        .race-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            width: 100%;
+            margin: 10px 0;
+        }
+        .race-stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            border-radius: 8px;
+            padding: 12px 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .race-stat-num {
+            font-family: var(--font-title);
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--secondary-neon);
+        }
+        .race-stat-lbl {
+            font-family: var(--font-tech);
+            font-size: 11px;
+            font-weight: 700;
+            color: #94a3b8;
+            letter-spacing: 1px;
+        }
+        .race-end-actions {
+            display: flex;
+            gap: 16px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .race-btn-restart {
+            flex: 1;
+            background: linear-gradient(90deg, #22c55e, #16a34a);
+            border: none;
+            color: #fff;
+            padding: 14px 20px;
+            font-family: var(--font-title);
+            font-size: 15px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 0 25px rgba(34, 197, 94, 0.5);
+            transition: all 0.2s;
+        }
+        .race-btn-restart:hover {
+            transform: scale(1.04);
+            box-shadow: 0 0 35px rgba(34, 197, 94, 0.8);
+        }
+        .race-btn-lobby {
+            flex: 1;
+            background: linear-gradient(90deg, #ef4444, #dc2626);
+            border: none;
+            color: #fff;
+            padding: 14px 20px;
+            font-family: var(--font-title);
+            font-size: 15px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 0 25px rgba(239, 68, 68, 0.5);
+            transition: all 0.2s;
+        }
+        .race-btn-lobby:hover {
+            transform: scale(1.04);
+            box-shadow: 0 0 35px rgba(239, 68, 68, 0.8);
+        }
+
         /* ── START RACE COUNTDOWN OVERLAY (3, 2, 1, GO!) ── */
         #countdown-screen {
             position: fixed;
@@ -720,7 +875,8 @@
             transition: opacity 0.3s ease, transform 0.3s ease;
             transform: scale(0.95);
         }
-        .modal-view.open {
+        .modal-view.open,
+        .modal-view.active {
             opacity: 1;
             pointer-events: auto;
             transform: scale(1);
@@ -1071,12 +1227,15 @@
         </aside>
     </div>
 
+    <!-- ── DAMAGE RED SCREEN FLASH OVERLAY ── -->
+    <div id="damage-flash-overlay"></div>
+
     <!-- ══════════════════════════════════════════════════════════════
          GAMEPLAY HUD (ACTIVE DURING MATCH)
          ══════════════════════════════════════════════════════════════ -->
     <div id="gameplay-hud">
         <div class="gameplay-top">
-            <!-- Left: Speedometer + Real-Time Mini-map Radar -->
+            <!-- Left: Speedometer + Real-Time Mini-map Radar + HP Shield Bar -->
             <div class="hud-left-stack">
                 <div class="speedometer-box">
                     <div class="speed-val" id="hud-speed">0</div>
@@ -1084,6 +1243,15 @@
                 </div>
                 <div class="hud-radar-minimap">
                     <canvas id="radar-canvas" width="160" height="110"></canvas>
+                </div>
+                <div class="hud-hp-box" id="hud-hp-box">
+                    <div class="hud-hp-header">
+                        <span class="hp-title">❤️ BLINDAJE</span>
+                        <span class="hp-val" id="hud-hp-val">100%</span>
+                    </div>
+                    <div class="hud-hp-track">
+                        <div class="hud-hp-fill" id="hud-hp-fill" style="width: 100%;"></div>
+                    </div>
                 </div>
             </div>
             
@@ -1114,6 +1282,37 @@
             <div class="modal-body-wrapper" id="modal-content-list"></div>
             <div class="modal-footer-action" id="modal-footer-box">
                 <button class="play-confirm-btn" id="btn-start-match">INICIAR PARTIDA</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         ENDGAME MODAL: VICTORIA / DERROTA (REINICIAR / SALIR)
+         ══════════════════════════════════════════════════════════════ -->
+    <div class="modal-view" id="race-end-modal">
+        <div class="modal-box race-end-box" id="race-end-box">
+            <div class="race-end-emblem" id="race-end-emblem">🏆</div>
+            <h2 class="race-end-title" id="race-end-title">¡VICTORIA!</h2>
+            <p class="race-end-subtitle" id="race-end-subtitle">¡Has cruzado la meta en 1º Lugar!</p>
+            
+            <div class="race-stats-grid">
+                <div class="race-stat-card">
+                    <span class="race-stat-num" id="race-stat-pos">1º LUGAR</span>
+                    <span class="race-stat-lbl">POSICIÓN</span>
+                </div>
+                <div class="race-stat-card">
+                    <span class="race-stat-num" id="race-stat-laps">5 / 5</span>
+                    <span class="race-stat-lbl">VUELTAS</span>
+                </div>
+                <div class="race-stat-card">
+                    <span class="race-stat-num" id="race-stat-kills">0</span>
+                    <span class="race-stat-lbl">RIVALES DESTRUIDOS</span>
+                </div>
+            </div>
+
+            <div class="race-end-actions">
+                <button class="race-btn-restart" id="btn-race-restart">🔄 REINICIAR PARTIDA</button>
+                <button class="race-btn-lobby" id="btn-race-lobby">🚪 SALIR AL LOBBY</button>
             </div>
         </div>
     </div>
@@ -1225,6 +1424,40 @@
                     gain.connect(this.ctx.destination);
                     osc.start();
                     osc.stop(this.ctx.currentTime + 0.4);
+                } catch(e) {}
+            },
+            playDamage() {
+                if (!this.enabled || !this.ctx) return;
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(280, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(70, this.ctx.currentTime + 0.25);
+                    gain.gain.setValueAtTime(0.28, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.25);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.25);
+                } catch(e) {}
+            },
+            playVictory() {
+                if (!this.enabled || !this.ctx) return;
+                try {
+                    const notes = [440, 554.37, 659.25, 880];
+                    notes.forEach((freq, idx) => {
+                        const osc = this.ctx.createOscillator();
+                        const gain = this.ctx.createGain();
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.12);
+                        gain.gain.setValueAtTime(0.2, this.ctx.currentTime + idx * 0.12);
+                        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.12 + 0.35);
+                        osc.connect(gain);
+                        gain.connect(this.ctx.destination);
+                        osc.start(this.ctx.currentTime + idx * 0.12);
+                        osc.stop(this.ctx.currentTime + idx * 0.12 + 0.35);
+                    });
                 } catch(e) {}
             }
         };
@@ -1431,10 +1664,22 @@
             }
         }
 
-        // ── KARTING RACETRACK WITH START GRID & PHYSICAL OBSTACLES ──
+        function spawnSparks(pos) {
+            for (let i = 0; i < 16; i++) {
+                const color = Math.random() > 0.5 ? 0xef4444 : 0xfacc15;
+                const p = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.18, 0.18), new THREE.MeshBasicMaterial({ color }));
+                p.position.copy(pos).add(new THREE.Vector3(0, 0.4, 0));
+                p.vel = new THREE.Vector3((Math.random() - 0.5) * 14, Math.random() * 10 + 2, (Math.random() - 0.5) * 14);
+                p.life = 0.5;
+                particlesGroup.add(p);
+            }
+        }
+
+        // ── KARTING RACETRACK WITH START GRID, HAZARD SPIKES & OBSTACLES ──
         let trackMeshGroup = new THREE.Group();
         scene.add(trackMeshGroup);
         const trackObstacles = [];
+        const trackSpikes = [];
 
         function buildEnvironment() {
             // Lobby Pedestal (Only visible in Lobby)
@@ -1505,18 +1750,92 @@
                 trackMeshGroup.add(slot);
             });
 
-            // Neon Directional Chevron Arrows on track surface pointing race direction
+            // Subtle Track Direction Arrows
             for (let a = 0; a < Math.PI * 2; a += Math.PI / 4) {
-                const arrowGeo = new THREE.ConeGeometry(1.2, 2.8, 3);
+                const arrowGeo = new THREE.ConeGeometry(0.8, 1.8, 3);
                 arrowGeo.rotateX(-Math.PI / 2);
-                const arrowMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.55 });
+                const arrowMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.35 });
                 const arrow = new THREE.Mesh(arrowGeo, arrowMat);
                 const ax = Math.cos(a) * 38;
                 const az = -Math.sin(a) * 38;
-                arrow.position.set(ax, -0.02, az);
+                arrow.position.set(ax, -0.03, az);
                 arrow.rotation.y = Math.PI + a;
                 trackMeshGroup.add(arrow);
             }
+
+            // ── LETHAL HAZARD SPIKE CLUSTERS (MUST BE DODGED BY RACERS!) ──
+            // Staggered across inner, middle and outer lanes requiring slalom weaving
+            const spikeConfigs = [
+                { angle: Math.PI * 0.25, rad: 30 },
+                { angle: Math.PI * 0.52, rad: 46 },
+                { angle: Math.PI * 0.82, rad: 37 },
+                { angle: Math.PI * 1.10, rad: 28 },
+                { angle: Math.PI * 1.38, rad: 48 },
+                { angle: Math.PI * 1.62, rad: 33 },
+                { angle: Math.PI * 1.88, rad: 43 }
+            ];
+
+            spikeConfigs.forEach(cfg => {
+                const sx = Math.cos(cfg.angle) * cfg.rad;
+                const sz = -Math.sin(cfg.angle) * cfg.rad;
+                const spikeGrp = new THREE.Group();
+                spikeGrp.position.set(sx, 0, sz);
+
+                // Base Hazard Platform
+                const baseGeo = new THREE.CylinderGeometry(1.8, 2.1, 0.14, 16);
+                const baseMat = new THREE.MeshStandardMaterial({ color: 0x17122b, metalness: 0.8, roughness: 0.3 });
+                const base = new THREE.Mesh(baseGeo, baseMat);
+                base.position.y = 0.07;
+                spikeGrp.add(base);
+
+                // Red Neon Danger Ring
+                const dangerRing = new THREE.Mesh(
+                    new THREE.RingGeometry(1.6, 1.95, 24),
+                    new THREE.MeshBasicMaterial({ color: 0xef4444, side: THREE.DoubleSide })
+                );
+                dangerRing.rotation.x = -Math.PI / 2;
+                dangerRing.position.y = 0.15;
+                spikeGrp.add(dangerRing);
+
+                // Cluster of 5 Sharp Upward Metallic Spikes
+                const spkGeo = new THREE.ConeGeometry(0.32, 1.35, 6);
+                const spkMat = new THREE.MeshStandardMaterial({ 
+                    color: 0xd1d5db, 
+                    metalness: 0.9, 
+                    roughness: 0.2, 
+                    emissive: 0x991b1b, 
+                    emissiveIntensity: 0.6 
+                });
+
+                const spikePositions = [
+                    { x: -0.55, z: -0.55 },
+                    { x: 0.55, z: -0.55 },
+                    { x: -0.55, z: 0.55 },
+                    { x: 0.55, z: 0.55 },
+                    { x: 0, z: 0 }
+                ];
+
+                spikePositions.forEach(p => {
+                    const spike = new THREE.Mesh(spkGeo, spkMat);
+                    spike.position.set(p.x, 0.68, p.z);
+                    spikeGrp.add(spike);
+                });
+
+                // Center Warning Glowing Pulsing Beacon
+                const beacon = new THREE.Mesh(
+                    new THREE.SphereGeometry(0.24, 8, 8),
+                    new THREE.MeshBasicMaterial({ color: 0xff0033 })
+                );
+                beacon.position.set(0, 1.45, 0);
+                spikeGrp.add(beacon);
+
+                trackMeshGroup.add(spikeGrp);
+                trackSpikes.push({
+                    pos: new THREE.Vector3(sx, 0, sz),
+                    radius: 2.1,
+                    mesh: spikeGrp
+                });
+            });
 
             // Solid Barrier Obstacles placed strictly outside the main driving lanes
             const obstaclePositions = [
@@ -1563,7 +1882,7 @@
         setupLights();
 
         // ══════════════════════════════════════════════════════════════
-        // ── GAMEPLAY STATE, CONTROLS & 5-LAP LOGIC ──
+        // ── GAMEPLAY STATE, CONTROLS, HP & 5-LAP LOGIC ──
         // ══════════════════════════════════════════════════════════════
         let isPlayingMatch = false;
         let raceActive = false; // Persistent active state: NEVER freezes after countdown
@@ -1574,6 +1893,77 @@
         let passedHalfLap = false;
         let lastSafePos = new THREE.Vector3(36, 0, 0);
         let isRespawning = false;
+        let playerHP = 100;
+        let playerInvulnerableTime = 0;
+        let raceFinished = false;
+        let rivalsKilled = 0;
+
+        function updatePlayerHPUI() {
+            const val = document.getElementById('hud-hp-val');
+            const fill = document.getElementById('hud-hp-fill');
+            if (!val || !fill) return;
+            val.textContent = `${playerHP}%`;
+            fill.style.width = `${Math.max(0, playerHP)}%`;
+            if (playerHP > 60) {
+                fill.style.background = 'linear-gradient(90deg, #22c55e, #4ade80)';
+                val.style.color = '#4ade80';
+            } else if (playerHP > 30) {
+                fill.style.background = 'linear-gradient(90deg, #eab308, #facc15)';
+                val.style.color = '#facc15';
+            } else {
+                fill.style.background = 'linear-gradient(90deg, #ef4444, #f87171)';
+                val.style.color = '#f87171';
+            }
+        }
+
+        function triggerDamageFlash() {
+            const overlay = document.getElementById('damage-flash-overlay');
+            if (!overlay) return;
+            overlay.style.opacity = '1';
+            setTimeout(() => {
+                overlay.style.opacity = '0';
+            }, 180);
+        }
+
+        function triggerRaceEnd(isVictory, title, subtitle) {
+            if (raceFinished) return;
+            raceFinished = true;
+            raceActive = false;
+            carSpeed = 0;
+
+            const modal = document.getElementById('race-end-modal');
+            const emblem = document.getElementById('race-end-emblem');
+            const titleEl = document.getElementById('race-end-title');
+            const subEl = document.getElementById('race-end-subtitle');
+            const statPos = document.getElementById('race-stat-pos');
+            const statLaps = document.getElementById('race-stat-laps');
+            const statKills = document.getElementById('race-stat-kills');
+
+            if (emblem) emblem.textContent = isVictory ? '🏆' : (playerHP <= 0 ? '💥' : '❌');
+            if (titleEl) {
+                titleEl.textContent = title;
+                titleEl.style.color = isVictory ? '#22c55e' : '#ef4444';
+            }
+            if (subEl) subEl.textContent = subtitle;
+
+            if (statPos) {
+                statPos.textContent = isVictory ? '1º LUGAR' : (playerHP <= 0 ? 'DESTRUIDO' : 'DERROTA');
+                statPos.style.color = isVictory ? '#22c55e' : '#ef4444';
+            }
+            if (statLaps) statLaps.textContent = `${Math.min(5, currentLap)} / 5`;
+            if (statKills) statKills.textContent = rivalsKilled;
+
+            if (modal) {
+                modal.classList.add('open');
+                modal.classList.add('active');
+            }
+
+            if (isVictory) {
+                AudioFX.playVictory();
+            } else {
+                AudioFX.playExplosion();
+            }
+        }
 
         window.addEventListener('keydown', e => {
             if (e.code === 'Space') {
@@ -1611,6 +2001,18 @@
         function startGameplay() {
             isPlayingMatch = true;
             raceActive = false;
+            raceFinished = false;
+            playerHP = 100;
+            playerInvulnerableTime = 0;
+            rivalsKilled = 0;
+            updatePlayerHPUI();
+
+            const endModal = document.getElementById('race-end-modal');
+            if (endModal) {
+                endModal.classList.remove('open');
+                endModal.classList.remove('active');
+            }
+
             closeModal();
             document.getElementById('game-ui').classList.add('hidden');
             document.getElementById('gameplay-hud').classList.add('active');
@@ -1618,6 +2020,7 @@
             // Player Start Grid position: X=36, Z=0 (Facing forwards in race direction: -Z direction)
             carGroup.position.set(36, 0, 0);
             carGroup.rotation.set(0, Math.PI, 0);
+            carGroup.visible = true;
             carSpeed = 0;
             currentLap = 1;
             passedHalfLap = false;
@@ -1630,6 +2033,7 @@
                 r.health = 100;
                 r.mesh.visible = true;
                 r.angle = r.gridAngleOffset;
+                r.lastSpikeHit = 0;
                 const rx = Math.cos(r.angle) * r.laneRad;
                 const rz = -Math.sin(r.angle) * r.laneRad;
                 r.mesh.position.set(rx, 0, rz);
@@ -1682,10 +2086,18 @@
             isPlayingMatch = false;
             raceActive = false;
             raceCountdown = 0;
+            raceFinished = false;
+            const endModal = document.getElementById('race-end-modal');
+            if (endModal) {
+                endModal.classList.remove('open');
+                endModal.classList.remove('active');
+            }
+
             document.getElementById('game-ui').classList.remove('hidden');
             document.getElementById('gameplay-hud').classList.remove('active');
             document.getElementById('countdown-screen').classList.remove('active');
             document.getElementById('respawn-banner').style.display = 'none';
+            carGroup.visible = true;
             camera.position.set(-0.3, 2.3, 7.8);
             camera.lookAt(0, 0.6, 0);
             camera.fov = 45;
@@ -1700,6 +2112,14 @@
 
         document.getElementById('btn-exit-gameplay').addEventListener('click', stopGameplay);
         document.getElementById('btn-start-match').addEventListener('click', startGameplay);
+        document.getElementById('btn-race-restart').addEventListener('click', () => {
+            AudioFX.playClick();
+            startGameplay();
+        });
+        document.getElementById('btn-race-lobby').addEventListener('click', () => {
+            AudioFX.playClick();
+            stopGameplay();
+        });
 
         // ══════════════════════════════════════════════════════════════
         // ── RADAR MINIMAP CANVAS RENDERER (TOP LEFT) ──
@@ -1724,6 +2144,16 @@
             radarCtx.moveTo(80 + 30, 55);
             radarCtx.lineTo(80 + 46, 55);
             radarCtx.stroke();
+
+            // Draw Spike Hazards Blips (Amber/Orange Warning Markers)
+            trackSpikes.forEach(sp => {
+                const sMapX = 80 + (sp.pos.x / 54) * 38;
+                const sMapY = 55 + (sp.pos.z / 54) * 38;
+                radarCtx.fillStyle = '#f97316';
+                radarCtx.beginPath();
+                radarCtx.arc(sMapX, sMapY, 2.5, 0, Math.PI * 2);
+                radarCtx.fill();
+            });
 
             // Draw Rivals Blips (Red/Orange Dots)
             rivalCars.forEach(r => {
@@ -2068,6 +2498,14 @@
             if (isPlayingMatch) {
                 renderRadarMinimap();
 
+                // ── Player Damage Invulnerability Frames Flashing ──
+                if (playerInvulnerableTime > 0) {
+                    playerInvulnerableTime -= dt;
+                    carGroup.visible = Math.floor(elapsedTime * 20) % 2 === 0;
+                } else {
+                    carGroup.visible = true;
+                }
+
                 // ── Physics & Controls (Active after Countdown, NEVER freezes) ──
                 if (raceActive && !isRespawning) {
                     const isTurbo = keys['Space'] === true;
@@ -2148,6 +2586,28 @@
                         }
                     });
 
+                    // ── Hazard Spikes Collision (Player Damage & Evasion) ──
+                    if (playerInvulnerableTime <= 0) {
+                        for (let i = 0; i < trackSpikes.length; i++) {
+                            const sp = trackSpikes[i];
+                            const distToSpike = carGroup.position.distanceTo(sp.pos);
+                            if (distToSpike < sp.radius) {
+                                playerHP = Math.max(0, playerHP - 25);
+                                playerInvulnerableTime = 0.85;
+                                carSpeed *= 0.35; // Sharp speed reduction upon spike hit
+                                AudioFX.playDamage();
+                                triggerDamageFlash();
+                                spawnSparks(carGroup.position);
+                                updatePlayerHPUI();
+
+                                if (playerHP <= 0) {
+                                    triggerRaceEnd(false, "¡VEHÍCULO DESTRUIDO!", "Tu blindaje llegó al 0% tras el impacto con los picos.");
+                                }
+                                break;
+                            }
+                        }
+                    }
+
                     // ── 5-Lap Progression Logic ──
                     if (carGroup.position.x < -15 && !passedHalfLap) {
                         passedHalfLap = true;
@@ -2157,6 +2617,7 @@
                         currentLap++;
                         if (currentLap > 5) {
                             document.getElementById('hud-lap-counter').textContent = `🏆 ¡CARRERA GANADA! (5/5 VUELTAS)`;
+                            triggerRaceEnd(true, "¡VICTORIA!", "¡Has cruzado la meta en 1º Lugar tras completar las 5 vueltas!");
                         } else {
                             document.getElementById('hud-lap-counter').textContent = `VUELTA: ${currentLap} / 5  |  RIVALES: ${rivalCars.filter(r=>r.alive).length} ACTIVOS`;
                         }
@@ -2177,14 +2638,63 @@
                         });
                     }
 
-                    // ── AI Rival NPCs Circuit Autonomous Drive ──
+                    // ── AI Rival NPCs Circuit Autonomous Drive, Spike Evasion & Damage ──
                     rivalCars.forEach((r) => {
                         if (!r.alive) return;
                         r.angle += (r.speed * 0.022) * dt;
-                        const rx = Math.cos(r.angle) * r.laneRad;
-                        const rz = -Math.sin(r.angle) * r.laneRad;
+
+                        // AI Spike Hazard Evasion Weaving
+                        let laneOffset = 0;
+                        for (let i = 0; i < trackSpikes.length; i++) {
+                            const sp = trackSpikes[i];
+                            const distToSpike = r.mesh.position.distanceTo(sp.pos);
+                            if (distToSpike < 6.5) {
+                                const spikeRad = Math.sqrt(sp.pos.x * sp.pos.x + sp.pos.z * sp.pos.z);
+                                if (r.laneRad >= spikeRad) {
+                                    laneOffset += 2.6 * (1.0 - distToSpike / 6.5);
+                                } else {
+                                    laneOffset -= 2.6 * (1.0 - distToSpike / 6.5);
+                                }
+                            }
+                        }
+                        r.currentLaneRad = THREE.MathUtils.lerp(r.currentLaneRad || r.laneRad, r.laneRad + laneOffset, 0.1);
+
+                        const rx = Math.cos(r.angle) * r.currentLaneRad;
+                        const rz = -Math.sin(r.angle) * r.currentLaneRad;
                         r.mesh.position.set(rx, 0, rz);
                         r.mesh.rotation.y = Math.PI + r.angle;
+
+                        // Check if Rival finished 5 laps first
+                        const rivalLapCount = Math.floor((r.angle - r.gridAngleOffset) / (Math.PI * 2)) + 1;
+                        if (rivalLapCount > 5 && !raceFinished) {
+                            triggerRaceEnd(false, "¡DERROTA!", "Un rival ha cruzado la meta en 1º Lugar tras 5 vueltas.");
+                        }
+
+                        // Check Rival Spike Hazard Collision
+                        if (!r.lastSpikeHit) r.lastSpikeHit = 0;
+                        if (elapsedTime - r.lastSpikeHit > 1.0) {
+                            for (let i = 0; i < trackSpikes.length; i++) {
+                                const sp = trackSpikes[i];
+                                if (r.mesh.position.distanceTo(sp.pos) < sp.radius) {
+                                    r.lastSpikeHit = elapsedTime;
+                                    r.health = Math.max(0, r.health - 35);
+                                    r.speed = Math.max(25, r.speed * 0.6);
+                                    spawnSparks(r.mesh.position);
+                                    const pct = Math.max(0, r.health / 100);
+                                    r.mesh.healthFill.scale.x = pct;
+                                    if (pct < 0.4) r.mesh.healthFill.material.color.setHex(0xef4444);
+
+                                    if (r.health <= 0) {
+                                        r.alive = false;
+                                        r.mesh.visible = false;
+                                        spawnExplosion(r.mesh.position);
+                                        rivalsKilled++;
+                                        document.getElementById('hud-lap-counter').textContent = `VUELTA: ${Math.min(5, currentLap)} / 5  |  RIVALES: ${rivalCars.filter(rc=>rc.alive).length} ACTIVOS`;
+                                    }
+                                    break;
+                                }
+                            }
+                        }
                     });
                 }
 
@@ -2206,7 +2716,8 @@
                                 r.alive = false;
                                 r.mesh.visible = false;
                                 spawnExplosion(r.mesh.position);
-                                document.getElementById('hud-lap-counter').textContent = `VUELTA: ${currentLap} / 5  |  RIVALES: ${rivalCars.filter(rc=>rc.alive).length} ACTIVOS`;
+                                rivalsKilled++;
+                                document.getElementById('hud-lap-counter').textContent = `VUELTA: ${Math.min(5, currentLap)} / 5  |  RIVALES: ${rivalCars.filter(rc=>rc.alive).length} ACTIVOS`;
                             }
                         }
                     });
