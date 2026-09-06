@@ -565,7 +565,6 @@
             letter-spacing: 2px;
         }
 
-        /* Target & Track HUD info */
         .track-info-badge {
             background: var(--panel-bg);
             border: 1px solid var(--primary-neon);
@@ -623,7 +622,7 @@
         }
 
         /* ══════════════════════════════════════════════════════════════
-           RICH MODALS WITH GRAPHICS & ICONS
+           COMPACT CIRCUIT MODAL & MINIMAP PREVIEW BOX
            ══════════════════════════════════════════════════════════════ */
         .modal-view {
             position: fixed;
@@ -647,7 +646,7 @@
         .modal-box {
             width: 86%;
             max-width: 1050px;
-            height: 82vh;
+            max-height: 88vh;
             background: #0c0820;
             border: 2px solid var(--primary-neon);
             border-radius: 12px;
@@ -658,7 +657,7 @@
             position: relative;
         }
         .modal-header {
-            padding: 20px 28px;
+            padding: 18px 26px;
             background: linear-gradient(90deg, rgba(168, 85, 247, 0.35) 0%, transparent 100%);
             border-bottom: 1px solid var(--panel-border);
             display: flex;
@@ -667,7 +666,7 @@
         }
         .modal-title {
             font-family: var(--font-title);
-            font-size: 24px;
+            font-size: 22px;
             letter-spacing: 3px;
             color: #ffffff;
             text-shadow: 0 0 15px var(--primary-neon);
@@ -691,132 +690,166 @@
         }
         
         .modal-body-wrapper {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding: 20px 24px;
             overflow-y: auto;
-            height: 100%;
         }
 
-        /* 4 Circuit Layout Grid (Track selection) */
+        /* 4 Circuit Cards - Compact & Exact Height */
         .track-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
         }
 
         .rich-card {
             background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(168, 85, 247, 0.3);
-            border-radius: 10px;
-            padding: 16px;
+            border: 1.5px solid rgba(168, 85, 247, 0.3);
+            border-radius: 8px;
+            padding: 14px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
             transition: all 0.25s;
             cursor: pointer;
             position: relative;
-            overflow: hidden;
+            height: fit-content;
         }
         .rich-card:hover {
             background: rgba(168, 85, 247, 0.2);
             border-color: var(--secondary-neon);
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(56, 189, 248, 0.3);
         }
         .rich-card.selected {
-            border: 2.5px solid var(--secondary-neon);
-            background: rgba(56, 189, 248, 0.2);
-            box-shadow: 0 0 30px var(--secondary-glow);
+            border: 2px solid var(--secondary-neon);
+            background: rgba(56, 189, 248, 0.18);
+            box-shadow: 0 0 25px var(--secondary-glow);
         }
 
-        /* Card Visual Artwork Box */
-        .card-visual-box {
+        /* Cyberpunk Vector Icon Canvas */
+        .card-vector-icon {
             width: 100%;
-            height: 100px;
+            height: 65px;
             border-radius: 6px;
             background: linear-gradient(135deg, #181238, #2a0845);
             border: 1px solid rgba(168, 85, 247, 0.4);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 42px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
         }
-
-        /* Minimap Canvas for Circuit selection */
-        .circuit-minimap {
-            width: 100%;
-            height: 100%;
-            display: block;
+        .card-vector-icon svg {
+            width: 44px;
+            height: 44px;
+            filter: drop-shadow(0 0 8px var(--secondary-neon));
         }
 
         .card-stat-bar {
             display: flex;
             flex-direction: column;
             gap: 4px;
-            margin-top: 4px;
+            margin-top: 2px;
         }
         .stat-label-row {
             display: flex;
             justify-content: space-between;
             font-family: var(--font-tech);
-            font-size: 12px;
+            font-size: 11px;
             color: #cbd5e1;
         }
         .stat-bar-track {
             width: 100%;
-            height: 5px;
+            height: 4px;
             background: rgba(255,255,255,0.1);
-            border-radius: 3px;
+            border-radius: 2px;
             overflow: hidden;
         }
         .stat-bar-fill {
             height: 100%;
             background: linear-gradient(90deg, var(--secondary-neon), var(--primary-neon));
-            border-radius: 3px;
+            border-radius: 2px;
         }
 
         .rich-card h4 {
             font-family: var(--font-title);
-            font-size: 16px;
+            font-size: 14px;
             color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            line-height: 1.2;
         }
         .rich-card p {
-            font-size: 13px;
+            font-size: 11px;
             color: #94a3b8;
-            line-height: 1.4;
+            line-height: 1.35;
         }
         .item-badge {
             align-self: flex-start;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 3px;
             background: var(--primary-neon);
             color: #000;
+            letter-spacing: 0.5px;
+        }
+
+        /* ── DYNAMIC TRACK SILHOUETTE PREVIEW BOX (LOWER BOX) ── */
+        .track-silhouette-container {
+            background: rgba(10, 6, 24, 0.85);
+            border: 1.5px solid var(--secondary-neon);
+            border-radius: 8px;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            box-shadow: inset 0 0 25px rgba(56, 189, 248, 0.15), 0 0 20px rgba(0,0,0,0.5);
+        }
+        .silhouette-info {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+        }
+        .silhouette-title {
+            font-family: var(--font-title);
+            font-size: 18px;
+            font-weight: 900;
+            color: var(--secondary-neon);
+            letter-spacing: 2px;
+        }
+        .silhouette-desc {
+            font-family: var(--font-ui);
+            font-size: 13px;
+            color: #cbd5e1;
+            line-height: 1.4;
+        }
+        .silhouette-svg-box {
+            width: 200px;
+            height: 100px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            box-shadow: inset 0 0 15px rgba(168, 85, 247, 0.3);
+        }
+        .silhouette-svg-box svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 10px var(--secondary-neon));
         }
 
         .modal-footer-action {
-            padding: 16px 28px;
+            padding: 16px 26px;
             border-top: 1px solid var(--panel-border);
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             align-items: center;
-            background: rgba(0, 0, 0, 0.4);
-        }
-        .selected-track-display {
-            font-family: var(--font-tech);
-            font-size: 15px;
-            color: var(--secondary-neon);
-            font-weight: 700;
-            letter-spacing: 1.5px;
+            background: rgba(0, 0, 0, 0.5);
         }
         .play-confirm-btn {
             background: linear-gradient(90deg, var(--secondary-neon), var(--primary-neon));
@@ -824,9 +857,9 @@
             color: #000;
             font-family: var(--font-title);
             font-size: 16px;
-            font-weight: 800;
+            font-weight: 900;
             letter-spacing: 2px;
-            padding: 12px 36px;
+            padding: 12px 38px;
             border-radius: 6px;
             cursor: pointer;
             box-shadow: 0 0 25px var(--secondary-glow);
@@ -963,7 +996,7 @@
             
             <div class="track-info-badge">
                 <div id="hud-track-name">CIRCUITO NEÓN METRÓPOLIS</div>
-                <div class="track-info-sub">POSICIÓN: 1/4 &nbsp;|&nbsp; RIVALES: 3 ACTIVOS</div>
+                <div class="track-info-sub">POSICIÓN: 1/4 &nbsp;|&nbsp; RIVALES EN PISTA: 3</div>
             </div>
 
             <div class="gameplay-controls-overlay">
@@ -985,7 +1018,6 @@
             </div>
             <div class="modal-body-wrapper" id="modal-content-list"></div>
             <div class="modal-footer-action" id="modal-footer-box">
-                <div class="selected-track-display" id="selected-track-name">Pista: Circuito Neón Metrópolis</div>
                 <button class="play-confirm-btn" id="btn-start-match">INICIAR PARTIDA</button>
             </div>
         </div>
@@ -1068,11 +1100,27 @@
                     osc.start();
                     osc.stop(this.ctx.currentTime + 0.12);
                 } catch(e) {}
+            },
+            playExplosion() {
+                if (!this.enabled || !this.ctx) return;
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(180, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(30, this.ctx.currentTime + 0.4);
+                    gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.4);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.4);
+                } catch(e) {}
             }
         };
 
         // ══════════════════════════════════════════════════════════════
-        // ── 3D VEHICLE, ARENA & AI RIVAL NPCS (THREE.JS) ──
+        // ── 3D SCENE, KARTING RACETRACK & COMBAT (THREE.JS) ──
         // ══════════════════════════════════════════════════════════════
         const canvas = document.getElementById('webgl-canvas');
         const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
@@ -1084,9 +1132,9 @@
         renderer.toneMappingExposure = 1.25;
 
         const scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2(0x05050d, 0.02);
+        scene.fog = new THREE.FogExp2(0x05050d, 0.018);
 
-        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 250);
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 300);
         camera.position.set(-0.3, 2.3, 7.8);
 
         const carGroup = new THREE.Group();
@@ -1181,19 +1229,21 @@
             carGroup.jets = [jetL, jetR];
         }
 
-        // ── AI RIVAL VEHICLES (NPCs) ──
+        // ── AI RIVAL VEHICLES (WITH 3D HEALTHBARS & EXPLOSION) ──
         const rivalCars = [];
+        const particlesGroup = new THREE.Group();
+        scene.add(particlesGroup);
+
         function createRivalCars() {
-            const rivalColors = [0x38bdf8, 0xec4899, 0xeab308];
-            const startOffsets = [
-                { x: -5, z: 10, speed: 28, radius: 24, offsetAngle: 0 },
-                { x: 5, z: 12, speed: 32, radius: 32, offsetAngle: Math.PI * 0.7 },
-                { x: 0, z: 20, speed: 30, radius: 28, offsetAngle: Math.PI * 1.4 }
+            const rivalConfigs = [
+                { color: 0x38bdf8, speed: 28, laneRadiusX: 38, laneRadiusZ: 26, offset: 0.5 },
+                { color: 0xec4899, speed: 33, laneRadiusX: 42, laneRadiusZ: 30, offset: 2.2 },
+                { color: 0xeab308, speed: 30, laneRadiusX: 34, laneRadiusZ: 22, offset: 4.5 }
             ];
 
-            startOffsets.forEach((data, idx) => {
+            rivalConfigs.forEach((cfg) => {
                 const rGroup = new THREE.Group();
-                const rMat = new THREE.MeshStandardMaterial({ color: rivalColors[idx], metalness: 0.8, roughness: 0.2 });
+                const rMat = new THREE.MeshStandardMaterial({ color: cfg.color, metalness: 0.8, roughness: 0.2 });
                 const rBody = new THREE.Mesh(new THREE.BoxGeometry(2.0, 0.5, 4.2), rMat);
                 rBody.position.y = 0.5;
                 rGroup.add(rBody);
@@ -1202,27 +1252,37 @@
                 rCabin.position.set(0, 0.9, 0);
                 rGroup.add(rCabin);
 
-                const rUnderglow = new THREE.PointLight(rivalColors[idx], 2, 4);
+                const rUnderglow = new THREE.PointLight(cfg.color, 2, 4);
                 rUnderglow.position.set(0, 0.2, 0);
                 rGroup.add(rUnderglow);
 
-                rGroup.position.set(data.x, 0, data.z);
-                rGroup.visible = false; // Solo visible en carrera
+                // 3D Floating Healthbar
+                const barBg = new THREE.Mesh(new THREE.PlaneGeometry(1.8, 0.2), new THREE.MeshBasicMaterial({ color: 0x222222, side: THREE.DoubleSide }));
+                barBg.position.set(0, 2.0, 0);
+                const barFill = new THREE.Mesh(new THREE.PlaneGeometry(1.7, 0.16), new THREE.MeshBasicMaterial({ color: 0x22c55e, side: THREE.DoubleSide }));
+                barFill.position.set(0, 2.0, 0.01);
+                rGroup.add(barBg);
+                rGroup.add(barFill);
+                rGroup.healthFill = barFill;
+
+                rGroup.visible = false;
                 scene.add(rGroup);
 
                 rivalCars.push({
                     mesh: rGroup,
-                    speed: data.speed,
-                    radius: data.radius,
-                    angle: data.offsetAngle,
-                    health: 100
+                    speed: cfg.speed,
+                    radX: cfg.laneRadiusX,
+                    radZ: cfg.laneRadiusZ,
+                    angle: cfg.offset,
+                    health: 100,
+                    alive: true
                 });
             });
         }
 
-        // ── PROJECTILES SYSTEM (BULLETS) ──
+        // ── PROJECTILES & COMBAT ──
         const projectiles = [];
-        const bulletGeo = new THREE.SphereGeometry(0.18, 8, 8);
+        const bulletGeo = new THREE.SphereGeometry(0.2, 8, 8);
         const bulletMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
 
         function shootLaser() {
@@ -1231,8 +1291,8 @@
             const b = new THREE.Mesh(bulletGeo, bulletMat);
             const forward = new THREE.Vector3(0, 0, 1).applyAxisAngle(new THREE.Vector3(0, 1, 0), carGroup.rotation.y);
             b.position.copy(carGroup.position).add(new THREE.Vector3(0, 0.6, 0)).addScaledVector(forward, 2.5);
-            b.velocity = forward.clone().multiplyScalar(95);
-            b.life = 2.0;
+            b.velocity = forward.clone().multiplyScalar(110);
+            b.life = 1.8;
             scene.add(b);
             projectiles.push(b);
         }
@@ -1244,12 +1304,23 @@
             if (isPlayingMatch && e.button === 0) shootLaser();
         });
 
-        // ── ARENA & TRACK THEMES ──
-        let currentCircuitTheme = 'neon';
-        let arenaPillars = [];
-        let gridHelper;
+        function spawnExplosion(pos) {
+            AudioFX.playExplosion();
+            for (let i = 0; i < 25; i++) {
+                const p = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.2, 0.2), new THREE.MeshBasicMaterial({ color: 0xf97316 }));
+                p.position.copy(pos);
+                p.vel = new THREE.Vector3((Math.random() - 0.5) * 15, Math.random() * 12, (Math.random() - 0.5) * 15);
+                p.life = 1.0;
+                particlesGroup.add(p);
+            }
+        }
+
+        // ── REALISTIC KARTING RACETRACK ENVIRONMENT ──
+        let trackMeshGroup = new THREE.Group();
+        scene.add(trackMeshGroup);
 
         function buildEnvironment() {
+            // Lobby Pedestal
             const platGeo = new THREE.CylinderGeometry(4.5, 4.8, 0.3, 64);
             const platMat = new THREE.MeshStandardMaterial({ color: 0x0c0918, metalness: 0.9, roughness: 0.3 });
             const platform = new THREE.Mesh(platGeo, platMat);
@@ -1257,39 +1328,49 @@
             platform.receiveShadow = true;
             scene.add(platform);
 
-            const ringGeo = new THREE.RingGeometry(4.45, 4.6, 64);
-            ringGeo.rotateX(-Math.PI / 2);
-            const ring = new THREE.Mesh(ringGeo, new THREE.MeshBasicMaterial({ color: 0xa855f7, side: THREE.DoubleSide }));
+            const ring = new THREE.Mesh(new THREE.RingGeometry(4.45, 4.6, 64), new THREE.MeshBasicMaterial({ color: 0xa855f7, side: THREE.DoubleSide }));
+            ring.rotation.x = -Math.PI / 2;
             ring.position.y = 0.01;
             scene.add(ring);
 
-            gridHelper = new THREE.GridHelper(160, 80, 0xa855f7, 0x1e1b4b);
-            gridHelper.position.y = -0.16;
-            gridHelper.material.opacity = 0.3;
-            gridHelper.material.transparent = true;
-            scene.add(gridHelper);
+            // Realistic Karting Track Curve (Curved Ribbon)
+            const trackCurve = new THREE.EllipseCurve(0, 0, 40, 28, 0, 2 * Math.PI, false, 0);
+            const trackPoints = trackCurve.getPoints(100);
+            const trackShape = new THREE.BufferGeometry().setFromPoints(trackPoints);
+            
+            // Track Floor (Asphalt Ribbon)
+            const trackMat = new THREE.MeshStandardMaterial({ color: 0x11111d, roughness: 0.7, metalness: 0.2 });
+            const trackRibbon = new THREE.Mesh(new THREE.RingGeometry(24, 48, 64), trackMat);
+            trackRibbon.rotation.x = -Math.PI / 2;
+            trackRibbon.position.y = -0.14;
+            trackMeshGroup.add(trackRibbon);
 
-            // Circuit Track Obstacles & Speed Gates
-            const gateMat = new THREE.MeshStandardMaterial({ color: 0x111122, metalness: 0.8, roughness: 0.2 });
-            const neonStripMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
-            for (let i = 0; i < 12; i++) {
-                const angle = (i / 12) * Math.PI * 2;
-                const gx = Math.cos(angle) * 32;
-                const gz = Math.sin(angle) * 32;
-                const pillar = new THREE.Mesh(new THREE.BoxGeometry(1.4, 9, 1.4), gateMat);
-                pillar.position.set(gx, 4.5, gz);
-                scene.add(pillar);
+            // Neon Curbs (Bordillos de circuito)
+            const innerCurb = new THREE.Mesh(new THREE.RingGeometry(23.7, 24.1, 64), new THREE.MeshBasicMaterial({ color: 0xa855f7, side: THREE.DoubleSide }));
+            innerCurb.rotation.x = -Math.PI / 2;
+            innerCurb.position.y = -0.12;
+            trackMeshGroup.add(innerCurb);
 
-                const strip = new THREE.Mesh(new THREE.BoxGeometry(1.5, 8.8, 0.1), neonStripMat);
-                strip.position.set(gx, 4.5, gz);
-                scene.add(strip);
-                arenaPillars.push(pillar);
+            const outerCurb = new THREE.Mesh(new THREE.RingGeometry(47.9, 48.3, 64), new THREE.MeshBasicMaterial({ color: 0x38bdf8, side: THREE.DoubleSide }));
+            outerCurb.rotation.x = -Math.PI / 2;
+            outerCurb.position.y = -0.12;
+            trackMeshGroup.add(outerCurb);
+
+            // Checkered Arch / Speed Gates
+            for (let i = 0; i < 8; i++) {
+                const angle = (i / 8) * Math.PI * 2;
+                const gx = Math.cos(angle) * 36;
+                const gz = Math.sin(angle) * 36;
+                const arch = new THREE.Mesh(new THREE.BoxGeometry(1.2, 8, 1.2), new THREE.MeshStandardMaterial({ color: 0x181528 }));
+                arch.position.set(gx, 4, gz);
+                trackMeshGroup.add(arch);
             }
 
+            // Stardust
             const starsGeo = new THREE.BufferGeometry();
             const starCoords = [];
             for (let i = 0; i < 1200; i++) {
-                starCoords.push((Math.random() - 0.5) * 100, Math.random() * 30, (Math.random() - 0.5) * 100);
+                starCoords.push((Math.random() - 0.5) * 120, Math.random() * 30, (Math.random() - 0.5) * 120);
             }
             starsGeo.setAttribute('position', new THREE.Float32BufferAttribute(starCoords, 3));
             scene.add(new THREE.Points(starsGeo, new THREE.PointsMaterial({ size: 0.09, color: 0xa855f7, transparent: true, opacity: 0.8 })));
@@ -1299,7 +1380,7 @@
         function setupLights() {
             const ambient = new THREE.AmbientLight(0x181432, 1.8);
             scene.add(ambient);
-            mainSpot = new THREE.SpotLight(0xa855f7, 4.5, 40, Math.PI / 4, 0.4, 1.2);
+            mainSpot = new THREE.SpotLight(0xa855f7, 4.5, 45, Math.PI / 4, 0.4, 1.2);
             mainSpot.position.set(4, 8, 5);
             mainSpot.castShadow = true;
             scene.add(mainSpot);
@@ -1314,7 +1395,7 @@
         setupLights();
 
         // ══════════════════════════════════════════════════════════════
-        // ── GAMEPLAY SIMULATION WITH AI RIVALS ──
+        // ── GAMEPLAY STATE & RACING PHYSICS ──
         // ══════════════════════════════════════════════════════════════
         let isPlayingMatch = false;
         let carSpeed = 0;
@@ -1323,8 +1404,8 @@
         window.addEventListener('keydown', e => {
             keys[e.code] = true;
             if (e.code === 'KeyR' && isPlayingMatch) {
-                carGroup.position.set(0, 0, 0);
-                carGroup.rotation.set(0, 0, 0);
+                carGroup.position.set(0, 0, 36);
+                carGroup.rotation.set(0, Math.PI / 2, 0);
                 carSpeed = 0;
             }
         });
@@ -1335,14 +1416,20 @@
             closeModal();
             document.getElementById('game-ui').classList.add('hidden');
             document.getElementById('gameplay-hud').classList.add('active');
-            carGroup.position.set(0, 0, 0);
-            carGroup.rotation.set(0, 0, 0);
+            
+            // Place player at starting grid
+            carGroup.position.set(0, 0, 36);
+            carGroup.rotation.set(0, Math.PI / 2, 0);
             carSpeed = 0;
 
-            // Make NPCs visible
+            // Reset and place NPCs on track lanes
             rivalCars.forEach((r, idx) => {
+                r.alive = true;
+                r.health = 100;
                 r.mesh.visible = true;
-                r.angle = (idx / 3) * Math.PI * 2;
+                r.mesh.healthFill.scale.set(1, 1, 1);
+                r.mesh.healthFill.material.color.setHex(0x22c55e);
+                r.angle = (idx * 0.8) + 0.4;
             });
 
             AudioFX.playTurbo();
@@ -1358,9 +1445,7 @@
             carGroup.rotation.set(0, 0, 0);
             carSpeed = 0;
 
-            // Hide NPCs in lobby
             rivalCars.forEach(r => { r.mesh.visible = false; });
-
             AudioFX.playClick();
         }
 
@@ -1368,7 +1453,7 @@
         document.getElementById('btn-start-match').addEventListener('click', startGameplay);
 
         // ══════════════════════════════════════════════════════════════
-        // ── LOBBY 3D DRAG & ZOOM CONTROLS ──
+        // ── LOBBY 3D CONTROLS ──
         // ══════════════════════════════════════════════════════════════
         let isDragging = false;
         let prevMouseX = 0;
@@ -1410,229 +1495,111 @@
         });
 
         // ══════════════════════════════════════════════════════════════
-        // ── RICH MODALS DATA (4 CIRCUITS, WEAPONS, AGENTS, SHOP) ──
+        // ── VECTOR ICONS & CIRCUIT SILHOUETTE DATA ──
         // ══════════════════════════════════════════════════════════════
+        const VECTOR_SVGS = {
+            city: `<svg viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M3 21h18M5 21V7l8-4v18M13 10h4v11M9 9h1M9 13h1M9 17h1M15 13h1M15 17h1"/></svg>`,
+            canyon: `<svg viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2"><path d="M2 20l7-10 4 5 3-3 6 8H2z"/><circle cx="18" cy="6" r="2" fill="#eab308"/></svg>`,
+            highway: `<svg viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2"><path d="M4 19L9 5M20 19L15 5M12 7v2M12 13v2M12 19v2"/></svg>`,
+            hangar: `<svg viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="M3 20h18V8L12 3 3 8v12zM9 20v-6h6v6"/></svg>`,
+            plasma: `<svg viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="6"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>`,
+            laser: `<svg viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>`,
+            missile: `<svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M12 2v8M8 6l4-4 4 4M10 10v8M14 10v8M9 18l3 4 3-4"/></svg>`,
+            minigun: `<svg viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="6" r="1.5"/><circle cx="12" cy="18" r="1.5"/><circle cx="6" cy="12" r="1.5"/><circle cx="18" cy="12" r="1.5"/></svg>`
+        };
+
+        const CIRCUIT_SILHOUETTES = {
+            0: {
+                title: "CIRCUITO NEÓN METRÓPOLIS",
+                desc: "Trazado perimetral con chicanes iluminadas, túneles holográficos y curvas parabólicas de aceleración continua.",
+                svg: `<svg viewBox="0 0 200 100"><path d="M 30 50 C 30 20, 80 15, 120 20 C 160 25, 180 40, 170 70 C 155 90, 80 85, 50 80 C 30 75, 30 65, 30 50 Z" fill="none" stroke="#38bdf8" stroke-width="4" stroke-dasharray="6,4"/><circle cx="30" cy="50" r="4" fill="#a855f7"/></svg>`
+            },
+            1: {
+                title: "CAÑÓN CUÁNTICO CYBER",
+                desc: "Pista off-road con 3 curvas ciegas de 90°, zonas de salto sobre cañones de plasma y asfalto magnético.",
+                svg: `<svg viewBox="0 0 200 100"><path d="M 25 25 L 140 25 L 175 60 L 150 85 L 60 85 L 25 60 Z" fill="none" stroke="#eab308" stroke-width="4"/><circle cx="25" cy="25" r="4" fill="#ef4444"/></svg>`
+            },
+            2: {
+                title: "AUTOPISTA HIPERESPACIO",
+                desc: "Óvalo supersónico en el vacío estelar con anillos de turbo para alcanzar los 200 km/h de velocidad punta.",
+                svg: `<svg viewBox="0 0 200 100"><ellipse cx="100" cy="50" rx="75" ry="30" fill="none" stroke="#ec4899" stroke-width="4" stroke-dasharray="8,4"/><circle cx="25" cy="50" r="4" fill="#38bdf8"/></svg>`
+            },
+            3: {
+                title: "HANGAR INDUSTRIAL 09",
+                desc: "Complejo militar con curvas cerradas técnicas, estrechamientos de carril y obstáculos de alta precisión.",
+                svg: `<svg viewBox="0 0 200 100"><path d="M 30 30 L 100 30 L 100 60 L 160 60 L 160 80 L 30 80 Z" fill="none" stroke="#a855f7" stroke-width="4"/><circle cx="30" cy="30" r="4" fill="#22c55e"/></svg>`
+            }
+        };
+
         const MODAL_DATA = {
             play: {
                 title: "SELECCIÓN DE CIRCUITO & MODO DE JUEGO",
                 showPlayBtn: true,
                 items: [
-                    {
-                        title: "Circuito Neón Metrópolis",
-                        icon: "🏙️",
-                        desc: "Pista urbana con curvas cerradas, túneles de luz y rascacielos flotantes.",
-                        badge: "RECOMENDADO",
-                        selected: true,
-                        stats: [{ name: "Dificultad", val: "75%" }, { name: "Velocidad Máx.", val: "90%" }],
-                        minimapType: "circle"
-                    },
-                    {
-                        title: "Cañón Cuántico Cyber",
-                        icon: "🏜️",
-                        desc: "Terreno desértico interplanetario con zonas de salto y rocas magnéticas.",
-                        badge: "OFF-ROAD",
-                        selected: false,
-                        stats: [{ name: "Dificultad", val: "85%" }, { name: "Saltos / Rampas", val: "95%" }],
-                        minimapType: "square"
-                    },
-                    {
-                        title: "Autopista Hiperespacio",
-                        icon: "🌌",
-                        desc: "Pista flotante suspendida en el vacío con anillos de aceleración turbo.",
-                        badge: "ALTA VELOCIDAD",
-                        selected: false,
-                        stats: [{ name: "Dificultad", val: "60%" }, { name: "Velocidad Máx.", val: "100%" }],
-                        minimapType: "loop"
-                    },
-                    {
-                        title: "Hangar Industrial 09",
-                        icon: "🏭",
-                        desc: "Complejo de almacenes militares con obstáculos móviles y curvas de 90°.",
-                        badge: "TÁCTICO",
-                        selected: false,
-                        stats: [{ name: "Dificultad", val: "90%" }, { name: "Curvas Técnicas", val: "85%" }],
-                        minimapType: "complex"
-                    }
+                    { title: "Circuito Neón", svgKey: "city", desc: "Urbano, túneles de luz y curvas rápidas.", badge: "POPULAR", selected: true, stats: [{ name: "Dificultad", val: "75%" }, { name: "Velocidad", val: "90%" }] },
+                    { title: "Cañón Cuántico", svgKey: "canyon", desc: "Off-road espacial con zonas de salto.", badge: "OFF-ROAD", selected: false, stats: [{ name: "Dificultad", val: "85%" }, { name: "Rampas", val: "95%" }] },
+                    { title: "Autopista Espacio", svgKey: "highway", desc: "Pista flotante de velocidad pura.", badge: "TURBO", selected: false, stats: [{ name: "Dificultad", val: "60%" }, { name: "Velocidad", val: "100%" }] },
+                    { title: "Hangar 09", svgKey: "hangar", desc: "Pista técnica con obstáculos militares.", badge: "TÁCTICO", selected: false, stats: [{ name: "Dificultad", val: "90%" }, { name: "Técnica", val: "85%" }] }
                 ]
             },
             armas: {
                 title: "ARSENAL Y ARMAMENTO DE COMBATE",
                 showPlayBtn: false,
                 items: [
-                    {
-                        title: "Cañón de Plasma V3",
-                        icon: "💥",
-                        desc: "Disparos térmicos con sobrecarga electrostática para perforar escudos.",
-                        badge: "TIER S",
-                        stats: [{ name: "Daño", val: "90%" }, { name: "Cadencia", val: "70%" }]
-                    },
-                    {
-                        title: "Láser Cuántico Helix",
-                        icon: "⚡",
-                        desc: "Rayo de energía continua de alta precisión a larga distancia.",
-                        badge: "TIER A",
-                        stats: [{ name: "Daño", val: "75%" }, { name: "Alcance", val: "95%" }]
-                    },
-                    {
-                        title: "Misiles EMP Teledirigidos",
-                        icon: "🚀",
-                        desc: "Inhabilita los propulsores y el turbo del enemigo durante 3.5 segundos.",
-                        badge: "TÁCTICO",
-                        stats: [{ name: "Radio", val: "85%" }, { name: "Control", val: "100%" }]
-                    },
-                    {
-                        title: "Minigun de Neutrones",
-                        icon: "🔥",
-                        desc: "Cadencia de 1200 proyectiles por minuto ideal para persecuciones.",
-                        badge: "PESADA",
-                        stats: [{ name: "Cadencia", val: "100%" }, { name: "Daño", val: "65%" }]
-                    }
+                    { title: "Cañón Plasma V3", svgKey: "plasma", desc: "Disparo térmico con sobrecarga.", badge: "TIER S", stats: [{ name: "Daño", val: "90%" }, { name: "Cadencia", val: "70%" }] },
+                    { title: "Láser Helix", svgKey: "laser", desc: "Rayo continuo de alta precisión.", badge: "TIER A", stats: [{ name: "Daño", val: "75%" }, { name: "Alcance", val: "95%" }] },
+                    { title: "Misiles EMP", svgKey: "missile", desc: "Inhabilita el turbo rival por 3.5s.", badge: "TÁCTICO", stats: [{ name: "Radio", val: "85%" }, { name: "Control", val: "100%" }] },
+                    { title: "Minigun Neutrón", svgKey: "minigun", desc: "1200 proyectiles por minuto.", badge: "PESADA", stats: [{ name: "Cadencia", val: "100%" }, { name: "Daño", val: "65%" }] }
                 ]
             },
             pase: {
                 title: "BASE DE BATALLA - TEMPORADA 3",
                 showPlayBtn: false,
                 items: [
-                    {
-                        title: "Nivel 10 - Skin Cuásar",
-                        icon: "✨",
-                        desc: "Pintura cromada iridiscente con reflejos dinámicos de neón.",
-                        badge: "DESBLOQUEADO",
-                        stats: [{ name: "Progreso", val: "100%" }]
-                    },
-                    {
-                        title: "Nivel 25 - Rines Taquión",
-                        icon: "🌀",
-                        desc: "Estela de partículas fluorescentes al superar los 150 km/h.",
-                        badge: "PREMIUM",
-                        stats: [{ name: "Progreso", val: "65%" }]
-                    },
-                    {
-                        title: "Nivel 40 - Propulsor Hiperespacio",
-                        icon: "☄️",
-                        desc: "Llamarada azul sónica con distorsión de aire gravitacional.",
-                        badge: "EXCLUSIVO",
-                        stats: [{ name: "Progreso", val: "30%" }]
-                    },
-                    {
-                        title: "Nivel 50 - Traje Piloto Vórtice",
-                        icon: "👑",
-                        desc: "Indumentaria legendaria de piloto con HUD holográfico reactivo.",
-                        badge: "LEGENDARIO",
-                        stats: [{ name: "Progreso", val: "10%" }]
-                    }
+                    { title: "Nivel 10 - Cuásar", svgKey: "laser", desc: "Pintura cromada iridiscente.", badge: "DESBLOQUEADO", stats: [{ name: "Progreso", val: "100%" }] },
+                    { title: "Nivel 25 - Taquión", svgKey: "highway", desc: "Rines con estela fluorescente.", badge: "PREMIUM", stats: [{ name: "Progreso", val: "65%" }] },
+                    { title: "Nivel 40 - Propulsor", svgKey: "missile", desc: "Llamarada azul gravitacional.", badge: "EXCLUSIVO", stats: [{ name: "Progreso", val: "30%" }] },
+                    { title: "Nivel 50 - Vórtice", svgKey: "plasma", desc: "Traje legendario de piloto.", badge: "LEGENDARIO", stats: [{ name: "Progreso", val: "10%" }] }
                 ]
             },
             coleccion: {
                 title: "GARAJE Y VEHÍCULOS DE COLECCIÓN",
                 showPlayBtn: false,
                 items: [
-                    {
-                        title: "Apex Phantom X (Equipado)",
-                        icon: "🏎️",
-                        desc: "Bólido aerodinámico ultra-ligero con alerones retráctiles de fibra.",
-                        badge: "ACTIVO",
-                        stats: [{ name: "Aceleración", val: "95%" }, { name: "Manejo", val: "90%" }]
-                    },
-                    {
-                        title: "Cyber Truck Marauder",
-                        icon: "🚛",
-                        desc: "Chasis acorazado con blindaje de titanio y escudo deflector frontal.",
-                        badge: "EN GARAJE",
-                        stats: [{ name: "Blindaje", val: "100%" }, { name: "Aceleración", val: "60%" }]
-                    },
-                    {
-                        title: "Hyperion GT Formula",
-                        icon: "🏁",
-                        desc: "Vehículo monoplaza de competición cuántica para velocidad punta.",
-                        badge: "EN GARAJE",
-                        stats: [{ name: "Velocidad", val: "100%" }, { name: "Manejo", val: "85%" }]
-                    },
-                    {
-                        title: "Viper Stealth 09",
-                        icon: "🛸",
-                        desc: "Prototipo con camuflaje de distorsión óptica y propulsión sigilosa.",
-                        badge: "BLOQUEADO",
-                        stats: [{ name: "Sigilo", val: "95%" }, { name: "Aceleración", val: "80%" }]
-                    }
+                    { title: "Apex Phantom X", svgKey: "highway", desc: "Bólido deportivo ultra-ligero.", badge: "ACTIVO", stats: [{ name: "Aceleración", val: "95%" }, { name: "Manejo", val: "90%" }] },
+                    { title: "Marauder Truck", svgKey: "hangar", desc: "Chasis acorazado con blindaje.", badge: "EN GARAJE", stats: [{ name: "Blindaje", val: "100%" }, { name: "Aceleración", val: "60%" }] },
+                    { title: "Hyperion GT", svgKey: "canyon", desc: "Monoplaza de aceleración cuántica.", badge: "EN GARAJE", stats: [{ name: "Velocidad", val: "100%" }, { name: "Manejo", val: "85%" }] },
+                    { title: "Viper Stealth", svgKey: "plasma", desc: "Camuflaje de distorsión óptica.", badge: "BLOQUEADO", stats: [{ name: "Sigilo", val: "95%" }, { name: "Aceleración", val: "80%" }] }
                 ]
             },
             agentes: {
                 title: "AGENTES Y PILOTOS DE ÉLITE",
                 showPlayBtn: false,
                 items: [
-                    {
-                        title: "Nova Cross",
-                        icon: "👩‍🚀",
-                        desc: "Especialista en hackeo de radares y turbo boost prolongado +40%.",
-                        badge: "HABILIDAD: SOBRECARGA",
-                        stats: [{ name: "Hacking", val: "95%" }, { name: "Reacción", val: "90%" }]
-                    },
-                    {
-                        title: "Kaelen 7",
-                        icon: "🤖",
-                        desc: "Androide militar con puntería balística asistida y eco-mira táctica.",
-                        badge: "HABILIDAD: ECO-MIRA",
-                        stats: [{ name: "Precisión", val: "100%" }, { name: "Blindaje", val: "80%" }]
-                    },
-                    {
-                        title: "Valkyrie Zero",
-                        icon: "🧝‍♀️",
-                        desc: "Despliega barreras perimetrales que desvían misiles enemigos.",
-                        badge: "HABILIDAD: BARRERA",
-                        stats: [{ name: "Defensa", val: "95%" }, { name: "Velocidad", val: "85%" }]
-                    },
-                    {
-                        title: "Dr. Aris Thorne",
-                        icon: "👨‍🔬",
-                        desc: "Regeneración nano-robótica instantánea de integridad de carrocería.",
-                        badge: "HABILIDAD: NANO-REPARACIÓN",
-                        stats: [{ name: "Curación", val: "90%" }, { name: "Escudos", val: "85%" }]
-                    }
+                    { title: "Nova Cross", svgKey: "laser", desc: "Hackeo de radares y turbo +40%.", badge: "SOBRECARGA", stats: [{ name: "Hacking", val: "95%" }] },
+                    { title: "Kaelen 7", svgKey: "minigun", desc: "Puntería asistida y eco-mira.", badge: "ECO-MIRA", stats: [{ name: "Precisión", val: "100%" }] },
+                    { title: "Valkyrie Zero", svgKey: "plasma", desc: "Barreras deflectoras de misiles.", badge: "DEFENSA", stats: [{ name: "Escudos", val: "95%" }] },
+                    { title: "Dr. Thorne", svgKey: "missile", desc: "Reparación nano-robótica en vivo.", badge: "NANO-HEAL", stats: [{ name: "Curación", val: "90%" }] }
                 ]
             },
             tienda: {
                 title: "TIENDA DEL HORIZONTE",
                 showPlayBtn: false,
                 items: [
-                    {
-                        title: "Paquete Fundador Neón",
-                        icon: "🎁",
-                        desc: "Incluye 5 skins cromadas, 2000 créditos y emblema holográfico.",
-                        badge: "50% DESCUENTO",
-                        stats: [{ name: "Precio", val: "$9.99 USD" }]
-                    },
-                    {
-                        title: "Pack 10,000 Créditos",
-                        icon: "💎",
-                        desc: "Monedas estelares para desbloquear pases, cajas y vehículos.",
-                        badge: "OFERTA",
-                        stats: [{ name: "Precio", val: "$19.99 USD" }]
-                    },
-                    {
-                        title: "Efecto Estelar Supernova",
-                        icon: "💥",
-                        desc: "Destruye a los oponentes con una explosión de supernova galáctica.",
-                        badge: "DESTACADO",
-                        stats: [{ name: "Rareza", val: "MÍTICO" }]
-                    },
-                    {
-                        title: "Pintura Oro Líquido Real",
-                        icon: "🏆",
-                        desc: "Acabado reflectante dorado de 24K aplicable a todos tus bólidos.",
-                        badge: "DIARIO",
-                        stats: [{ name: "Precio", val: "1,200 💎" }]
-                    }
+                    { title: "Pack Fundador", svgKey: "plasma", desc: "5 skins, 2000 CP y emblema.", badge: "50% OFF", stats: [{ name: "Precio", val: "$9.99" }] },
+                    { title: "10,000 Créditos", svgKey: "laser", desc: "Monedas para pases y autos.", badge: "OFERTA", stats: [{ name: "Precio", val: "$19.99" }] },
+                    { title: "Efecto Supernova", svgKey: "missile", desc: "Remate con estallido estelar.", badge: "MÍTICO", stats: [{ name: "Rareza", val: "ÉPICO" }] },
+                    { title: "Pintura Oro 24K", svgKey: "minigun", desc: "Acabado reflectante dorado.", badge: "DIARIO", stats: [{ name: "Precio", val: "1,200 💎" }] }
                 ]
             },
             controles: {
                 title: "GUÍA DE CONTROLES DEL JUEGO",
                 showPlayBtn: false,
                 items: [
-                    { title: "Conducción", icon: "🕹️", desc: "W / A / S / D o Flechas para acelerar, virar y frenar.", badge: "MOVIMIENTO" },
-                    { title: "Combate", icon: "🎯", desc: "Presiona F o Click Izquierdo para disparar ráfagas de plasma.", badge: "DISPARO" },
-                    { title: "Nitro / Turbo", icon: "🚀", desc: "Presiona Barra Espaciadora para activar los reactores de propulsión.", badge: "TURBO" },
-                    { title: "Lobby 3D", icon: "🖱️", desc: "Arrastra con el mouse para rotar 360° y rueda para Zoom.", badge: "VISTA" }
+                    { title: "Conducción", svgKey: "city", desc: "W / A / S / D para acelerar y virar.", badge: "MOVIMIENTO" },
+                    { title: "Combate", svgKey: "plasma", desc: "F o Click para disparar láser.", badge: "DISPARO" },
+                    { title: "Turbo", svgKey: "missile", desc: "Espacio para activar propulsor.", badge: "TURBO" },
+                    { title: "Lobby 3D", svgKey: "highway", desc: "Arrastra para rotar en 360°.", badge: "VISTA" }
                 ]
             }
         };
@@ -1642,7 +1609,6 @@
         const modalList = document.getElementById('modal-content-list');
         const modalFooter = document.getElementById('modal-footer-box');
         const modalClose = document.getElementById('modal-close-btn');
-        const selectedTrackLabel = document.getElementById('selected-track-name');
 
         function openModal(key) {
             const data = MODAL_DATA[key];
@@ -1652,11 +1618,11 @@
             modalTitle.textContent = data.title;
             modalFooter.style.display = data.showPlayBtn ? 'flex' : 'none';
 
-            modalList.innerHTML = `<div class="track-grid">${data.items.map((it, idx) => `
+            let html = `<div class="track-grid">${data.items.map((it, idx) => `
                 <div class="rich-card ${it.selected ? 'selected' : ''}" data-idx="${idx}" data-key="${key}">
                     <span class="item-badge">${it.badge}</span>
-                    <div class="card-visual-box">
-                        ${it.icon || '🚀'}
+                    <div class="card-vector-icon">
+                        ${VECTOR_SVGS[it.svgKey] || VECTOR_SVGS.plasma}
                     </div>
                     <h4>${it.title}</h4>
                     <p>${it.desc}</p>
@@ -1671,16 +1637,37 @@
                 </div>
             `).join('')}</div>`;
 
+            // If Play mode, add the Dynamic Track Silhouette Box below
+            if (key === 'play') {
+                const initSil = CIRCUIT_SILHOUETTES[0];
+                html += `
+                    <div class="track-silhouette-container" id="track-silhouette-box">
+                        <div class="silhouette-info">
+                            <div class="silhouette-title" id="sil-title">${initSil.title}</div>
+                            <div class="silhouette-desc" id="sil-desc">${initSil.desc}</div>
+                        </div>
+                        <div class="silhouette-svg-box" id="sil-svg">
+                            ${initSil.svg}
+                        </div>
+                    </div>
+                `;
+            }
+
+            modalList.innerHTML = html;
+
             modalList.querySelectorAll('.rich-card').forEach(card => {
                 card.addEventListener('click', () => {
                     AudioFX.playHover();
                     modalList.querySelectorAll('.rich-card').forEach(c => c.classList.remove('selected'));
                     card.classList.add('selected');
                     const idx = card.dataset.idx;
-                    const it = data.items[idx];
+
                     if (key === 'play') {
-                        selectedTrackLabel.textContent = `Pista Seleccionada: ${it.title}`;
-                        document.getElementById('hud-track-name').textContent = it.title.toUpperCase();
+                        const sil = CIRCUIT_SILHOUETTES[idx] || CIRCUIT_SILHOUETTES[0];
+                        document.getElementById('sil-title').textContent = sil.title;
+                        document.getElementById('sil-desc').textContent = sil.desc;
+                        document.getElementById('sil-svg').innerHTML = sil.svg;
+                        document.getElementById('hud-track-name').textContent = sil.title;
                     }
                 });
             });
@@ -1773,7 +1760,7 @@
         });
 
         // ══════════════════════════════════════════════════════════════
-        // ── MAIN ANIMATION & GAMEPLAY LOOP ──
+        // ── MAIN ANIMATION & RACING GAMEPLAY LOOP ──
         // ══════════════════════════════════════════════════════════════
         let clock = new THREE.Clock();
         const hudSpeed = document.getElementById('hud-speed');
@@ -1785,8 +1772,8 @@
 
             if (isPlayingMatch) {
                 const maxSpeed = keys['Space'] ? 190 : 125;
-                const accel = keys['Space'] ? 80 : 50;
-                const friction = 25;
+                const accel = keys['Space'] ? 85 : 52;
+                const friction = 26;
 
                 if (keys['KeyW'] || keys['ArrowUp']) {
                     carSpeed = Math.min(maxSpeed, carSpeed + accel * dt);
@@ -1808,8 +1795,8 @@
                 const forward = new THREE.Vector3(0, 0, 1).applyAxisAngle(new THREE.Vector3(0, 1, 0), carGroup.rotation.y);
                 carGroup.position.addScaledVector(forward, (carSpeed * 0.28) * dt);
 
-                carGroup.position.x = Math.max(-70, Math.min(70, carGroup.position.x));
-                carGroup.position.z = Math.max(-70, Math.min(70, carGroup.position.z));
+                carGroup.position.x = Math.max(-80, Math.min(80, carGroup.position.x));
+                carGroup.position.z = Math.max(-80, Math.min(80, carGroup.position.z));
 
                 if (carGroup.wheelMeshes) {
                     carGroup.wheelMeshes.forEach(w => {
@@ -1826,12 +1813,16 @@
                 }
 
                 // ── AI Rival NPCs Autonomous Circuit Driving ──
-                rivalCars.forEach((r, idx) => {
+                rivalCars.forEach((r) => {
+                    if (!r.alive) return;
                     r.angle += (r.speed * 0.02) * dt;
-                    const nx = Math.cos(r.angle) * r.radius;
-                    const nz = Math.sin(r.angle) * r.radius;
+                    const nx = Math.cos(r.angle) * r.radX;
+                    const nz = Math.sin(r.angle) * r.radZ;
                     r.mesh.position.set(nx, 0, nz);
-                    r.mesh.rotation.y = -r.angle + Math.PI / 2;
+                    // Orient car tangentially along the track curve
+                    const tx = -Math.sin(r.angle) * r.radX;
+                    const tz = Math.cos(r.angle) * r.radZ;
+                    r.mesh.rotation.y = Math.atan2(tx, tz);
                 });
 
                 // ── Bullet Projectiles Movement & Hit Detection ──
@@ -1840,20 +1831,37 @@
                     p.position.addScaledVector(p.velocity, dt);
                     p.life -= dt;
 
-                    // Check hit with rivals
                     rivalCars.forEach(r => {
-                        if (p.position.distanceTo(r.mesh.position) < 2.5) {
-                            r.health -= 25;
+                        if (r.alive && p.position.distanceTo(r.mesh.position) < 2.5) {
+                            r.health -= 35;
                             p.life = 0;
-                            // Visual flash
-                            r.mesh.position.y = 0.4;
-                            setTimeout(() => { r.mesh.position.y = 0; }, 100);
+                            // Update 3D healthbar
+                            const pct = Math.max(0, r.health / 100);
+                            r.mesh.healthFill.scale.x = pct;
+                            if (pct < 0.4) r.mesh.healthFill.material.color.setHex(0xef4444);
+
+                            if (r.health <= 0) {
+                                r.alive = false;
+                                r.mesh.visible = false;
+                                spawnExplosion(r.mesh.position);
+                            }
                         }
                     });
 
                     if (p.life <= 0) {
                         scene.remove(p);
                         projectiles.splice(i, 1);
+                    }
+                }
+
+                // ── Particle Explosion Physics ──
+                for (let i = particlesGroup.children.length - 1; i >= 0; i--) {
+                    const pt = particlesGroup.children[i];
+                    pt.position.addScaledVector(pt.vel, dt);
+                    pt.life -= dt;
+                    pt.scale.multiplyScalar(0.96);
+                    if (pt.life <= 0) {
+                        particlesGroup.remove(pt);
                     }
                 }
 
