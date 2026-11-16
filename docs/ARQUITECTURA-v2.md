@@ -65,7 +65,33 @@ Estados que se repiten en las tarjetas: **En uso** / **Equipada** / **Elegido** 
 | No carga el motor 3D (sin internet al abrir) | Pantalla **No se pudo cargar el motor gráfico** + **↻ Reintentar** | Error |
 | Fin de carrera | **¡Victoria!** / **Derrota** / **Vehículo destruido** + tiempo + 💎 ganados | Resultado |
 
-## 4. Guion sugerido del video (máx. 2 min)
+## 4. Jugabilidad
+
+**Circuitos (cada uno con forma propia; la miniatura y la pista 3D salen de los mismos puntos):**
+
+| Circuito | Forma | Lo especial |
+|---|---|---|
+| Neón Metrópolis | Curvas suaves con chicana en zigzag | 1 acelerador, edificios de neón |
+| Cañón Cuántico | Hexágono con esquinas cerradas | 3 rampas de salto, rocas |
+| Autopista Hiperespacio | Óvalo ancho | 4 aceleradores, rivales más rápidos |
+| Hangar Industrial 09 | Forma de L, pista estrecha | Curvas de 90° y cajas de carga |
+
+**Vehículos (modelo 3D y manejo distintos; los rivales usan los mismos modelos):**
+
+| Vehículo | Tipo | Vel. máx. | Particularidad |
+|---|---|---|---|
+| Apex Phantom X | Deportivo | 172 km/h | Equilibrado |
+| Marauder | Blindado | 152 km/h | Recibe 40 % menos daño |
+| Hyperion GT | Fórmula | 198 km/h | Muy rápido, frágil |
+| Viper Stealth | Sigilo | 185 km/h | Bloqueado (Pase nivel 50) |
+
+**Armas:** Plasma (equilibrada), Láser (rápido y veloz), Misiles EMP (teledirigidos, frenan al rival 3,5 s), Metralleta (ráfaga con dispersión).
+
+**Pilotos (tecla E):** Sobrecarga (turbo gratis y más fuerte), Puntería asistida (disparos teledirigidos), Escudo (inmune 4 s), Reparación (+40 % blindaje).
+
+**En la pista:** turbo con energía limitada, objetos de turbo (+50 %) y reparación (+30 %), picos, rivales que esquivan obstáculos, saltan rampas y **te disparan**, posición en tiempo real (1.º–4.º) y 3 vueltas.
+
+## 5. Guion sugerido del video (máx. 2 min)
 
 | Tiempo | Qué mostrar |
 |---|---|
@@ -76,7 +102,7 @@ Estados que se repiten en las tarjetas: **En uso** / **Equipada** / **Elegido** 
 | 1:30–1:45 | **Pausa** (Esc) → Volver al menú → diálogo de confirmación |
 | 1:45–2:00 | Pantalla de **Resultados** o error de conexión (desconectar Wi-Fi y recargar → **Reintentar**) |
 
-## 5. Archivos
+## 6. Archivos
 
 ```
 index.html  menu.html  circuitos.html  carrera.html  garaje.html
