@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero Horizon · Armas</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/catalogo.css">
+</head>
+<body class="pagina-catalogo">
+    <div class="efecto-lineas"></div>
+    <div class="efecto-vineta"></div>
+
+    <header class="barra-superior">
+        <button class="boton" data-ir="menu.html">← Volver al menú</button>
+        <span class="ruta">Menú principal / <b>Armas</b></span>
+        <span class="espaciador"></span>
+        <div class="saldo">
+            <span class="diamantes">💎 <span data-saldo="diamantes">0</span></span>
+            <span class="creditos">⚡ <span data-saldo="creditos">0</span></span>
+        </div>
+        <button class="boton" data-accion="sonido">🔊 Sonido: activado</button>
+    </header>
+
+    <main class="contenido">
+        <div class="encabezado">
+            <div>
+                <h2>🔫 Armas</h2>
+                <p>Equipa un arma para la carrera. Dispara con <kbd>F</kbd> o con clic.</p>
+            </div>
+        </div>
+        <section class="rejilla-tarjetas" id="rejilla" aria-label="Armas"></section>
+        <aside class="detalle" id="detalle" aria-live="polite"></aside>
+    </main>
+
+    <script src="js/comun.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/datos.js"></script>
+    <script src="js/catalogo.js"></script>
+    <script>
+        Catalogo.iniciar({
+            items: ARMAS,
+            seleccionInicial: Estado.get('arma'),
+            estadoDe: it => it.id === Estado.get('arma') ? { texto: 'Equipada', clase: 'activo' } : null,
+            accionDe: it => it.id === Estado.get('arma')
+                ? { texto: '✓ Equipada', deshabilitada: true, alHacer: () => {} }
+                : { texto: 'Equipar', alHacer: () => { Estado.set('arma', it.id); aviso(`${it.nombre} equipada.`, 'exito'); } }
+        });
+    </script>
+</body>
+</html>

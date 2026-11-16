@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero Horizon · Carrera</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/carrera.css">
+</head>
+<body>
+    <canvas id="lienzo-3d"></canvas>
+    <div class="efecto-lineas"></div>
+    <div class="efecto-vineta"></div>
+    <div id="destello-dano"></div>
+
+    <!-- HUD de la carrera -->
+    <div id="hud">
+        <div class="hud-superior">
+            <div class="hud-izquierda">
+                <div class="caja-hud velocimetro">
+                    <div class="valor" id="hud-velocidad">0</div>
+                    <div class="unidad">KM/H</div>
+                </div>
+                <div class="caja-hud radar"><canvas id="radar" width="160" height="110"></canvas></div>
+                <div class="caja-hud blindaje" id="hud-blindaje">
+                    <div class="cab"><span class="titulo">❤️ BLINDAJE</span><span id="hud-blindaje-valor">100 %</span></div>
+                    <div class="pista-barra"><div class="relleno" id="hud-blindaje-barra"></div></div>
+                </div>
+                <div class="caja-hud blindaje turbo">
+                    <div class="cab"><span class="titulo">⚡ TURBO</span><span id="hud-turbo-valor">100 %</span></div>
+                    <div class="pista-barra"><div class="relleno" id="hud-turbo-barra"></div></div>
+                </div>
+            </div>
+
+            <div class="info-carrera">
+                <div class="circuito" id="hud-circuito">CIRCUITO</div>
+                <div class="datos">
+                    <span>POSICIÓN <b id="hud-posicion">4 / 4</b></span>
+                    <span>VUELTA <b id="hud-vuelta">1 / 3</b></span>
+                    <span>RIVALES <b id="hud-rivales">3</b></span>
+                    <span>TIEMPO <b id="hud-tiempo">0:00</b></span>
+                </div>
+            </div>
+
+            <div class="hud-derecha">
+                <button class="boton" id="btn-pausa">⏸ Pausa <kbd>Esc</kbd></button>
+                <div class="ayuda-teclas">
+                    <kbd>W</kbd> Acelerar · <kbd>S</kbd> Frenar<br>
+                    <kbd>A</kbd><kbd>D</kbd> Girar · <kbd>Espacio</kbd> Turbo<br>
+                    <kbd>F</kbd> / Clic Disparar · <kbd>E</kbd> Habilidad<br>
+                    <kbd>R</kbd> Volver a la pista
+                </div>
+            </div>
+        </div>
+
+        <div class="hud-inferior">
+            <div class="caja-equipo" id="hud-arma">
+                <div class="icono-equipo" id="hud-arma-icono"></div>
+                <div class="texto-equipo">
+                    <span class="etq">ARMA · <kbd>F</kbd></span>
+                    <span class="nombre" id="hud-arma-nombre">—</span>
+                    <div class="pista-barra"><div class="relleno" id="hud-arma-barra"></div></div>
+                </div>
+            </div>
+            <div class="caja-equipo" id="hud-habilidad">
+                <div class="icono-equipo" id="hud-hab-icono"></div>
+                <div class="texto-equipo">
+                    <span class="etq">HABILIDAD · <kbd>E</kbd></span>
+                    <span class="nombre" id="hud-hab-nombre">—</span>
+                    <div class="pista-barra"><div class="relleno" id="hud-hab-barra"></div></div>
+                    <span class="estado" id="hud-hab-estado">Lista</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cuenta regresiva -->
+    <div id="cuenta-regresiva"><div class="numero" id="cuenta-numero">3</div></div>
+
+    <!-- Aviso: fuera de pista -->
+    <div id="aviso-pista" role="alert">⚠️ ¡Fuera de pista!<br><small>Volviendo a la pista…</small></div>
+
+    <!-- Pausa -->
+    <div class="capa-panel" id="panel-pausa" role="dialog" aria-modal="true" aria-labelledby="titulo-pausa">
+        <div class="panel-central">
+            <div class="emblema">⏸</div>
+            <h2 id="titulo-pausa">Pausa</h2>
+            <p class="subtitulo" id="pausa-resumen">La carrera está detenida.</p>
+            <div class="lista-acciones">
+                <button class="boton boton-principal" id="btn-continuar">▶ Continuar</button>
+                <button class="boton" id="btn-reiniciar-pausa">↻ Reiniciar carrera</button>
+                <button class="boton" id="btn-ver-controles">🎮 Ver controles</button>
+                <button class="boton boton-peligro" id="btn-abandonar">🚪 Volver al menú</button>
+            </div>
+            <div class="controles-pausa" id="controles-pausa"></div>
+        </div>
+    </div>
+
+    <!-- Resultados -->
+    <div class="capa-panel" id="panel-resultados" role="dialog" aria-modal="true" aria-labelledby="res-titulo">
+        <div class="panel-central">
+            <div class="emblema" id="res-emblema">🏆</div>
+            <h2 id="res-titulo">¡Victoria!</h2>
+            <p class="subtitulo" id="res-subtitulo"></p>
+            <div class="tabla-resultados">
+                <div class="dato-resultado"><span class="num" id="res-posicion">1.º</span><span class="etq">Posición</span></div>
+                <div class="dato-resultado"><span class="num" id="res-vueltas">5 / 5</span><span class="etq">Vueltas</span></div>
+                <div class="dato-resultado"><span class="num" id="res-rivales">0</span><span class="etq">Rivales destruidos</span></div>
+                <div class="dato-resultado"><span class="num" id="res-tiempo">0:00</span><span class="etq">Tiempo</span></div>
+            </div>
+            <div class="premio" id="res-premio">+0 💎</div>
+            <div class="acciones-resultado">
+                <button class="boton boton-exito" id="btn-reiniciar">↻ Reiniciar carrera</button>
+                <button class="boton" data-ir="circuitos.html">🗺️ Elegir otro circuito</button>
+                <button class="boton boton-peligro" data-ir="menu.html">🚪 Volver al menú</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="js/comun.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/datos.js"></script>
+    <script src="js/auto3d.js"></script>
+    <script src="js/carrera.js"></script>
+</body>
+</html>

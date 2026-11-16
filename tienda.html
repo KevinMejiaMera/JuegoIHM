@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero Horizon · Tienda</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/catalogo.css">
+</head>
+<body class="pagina-catalogo">
+    <div class="efecto-lineas"></div>
+    <div class="efecto-vineta"></div>
+
+    <header class="barra-superior">
+        <button class="boton" data-ir="menu.html">← Volver al menú</button>
+        <span class="ruta">Menú principal / <b>Tienda</b></span>
+        <span class="espaciador"></span>
+        <div class="saldo">
+            <span class="diamantes">💎 <span data-saldo="diamantes">0</span></span>
+            <span class="creditos">⚡ <span data-saldo="creditos">0</span></span>
+        </div>
+        <button class="boton" data-accion="sonido">🔊 Sonido: activado</button>
+    </header>
+
+    <main class="contenido">
+        <div class="encabezado">
+            <div>
+                <h2>🛒 Tienda</h2>
+                <p>Compra con diamantes 💎. Ganas diamantes al ganar carreras y al destruir rivales.</p>
+            </div>
+        </div>
+        <section class="rejilla-tarjetas" id="rejilla" aria-label="Productos"></section>
+        <aside class="detalle" id="detalle" aria-live="polite"></aside>
+    </main>
+
+    <script src="js/comun.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/datos.js"></script>
+    <script src="js/catalogo.js"></script>
+    <script>
+        const compras = () => Estado.get('compras', []);
+
+        Catalogo.iniciar({
+            items: TIENDA,
+            extraTarjeta: it => `<span class="precio">💎 ${formato(it.precio)}</span>`,
+            estadoDe: it => compras().includes(it.id) ? { texto: 'Comprado', clase: 'comprado' } : null,
+            accionDe: it => {
+                const saldo = Estado.get('diamantes');
+                if (compras().includes(it.id)) return { texto: '✓ Comprado', deshabilitada: true, alHacer: () => {} };
+                const falta = it.precio - saldo;
+                return {
+                    texto: `Comprar por 💎 ${formato(it.precio)}`,
+                    nota: falta > 0 ? `Saldo insuficiente: te faltan 💎 ${formato(falta)}.` : `Te quedarán 💎 ${formato(saldo - it.precio)}.`,
+                    bloqueada: falta > 0,
+                    clase: falta > 0 ? '' : 'boton-principal',
+                    alHacer: async () => {
+                        if (falta > 0) {
+                            aviso(`Diamantes insuficientes: te faltan 💎 ${formato(falta)} para comprar ${it.nombre}.`, 'error', 3800);
+                            return;
+                        }
+                        const ok = await confirmar({
+                            titulo: 'Confirmar compra',
+                            mensaje: `¿Comprar <b>${it.nombre}</b> por 💎 ${formato(it.precio)}?<br>Tu saldo pasará de ${formato(saldo)} a ${formato(saldo - it.precio)}.`,
+                            aceptar: 'Comprar',
+                            cancelar: 'Cancelar'
+                        });
+                        if (!ok) { aviso('Compra cancelada.', 'info'); return; }
+                        Estado.set('diamantes', saldo - it.precio);
+                        Estado.set('compras', [...compras(), it.id]);
+                        if (it.creditos) Estado.set('creditos', Estado.get('creditos') + it.creditos);
+                        if (it.pintura) Estado.set('pintura', it.pintura);
+                        aviso(`¡Compra realizada! ${it.nombre} ya es tuyo.`, 'exito');
+                    }
+                };
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero Horizon · Controles</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/catalogo.css">
+</head>
+<body class="pagina-catalogo">
+    <div class="efecto-lineas"></div>
+    <div class="efecto-vineta"></div>
+
+    <header class="barra-superior">
+        <button class="boton" id="btn-volver">← Volver</button>
+        <span class="ruta"><span id="ruta-origen">Menú principal</span> / <b>Controles</b></span>
+        <span class="espaciador"></span>
+        <button class="boton" data-accion="sonido">🔊 Sonido: activado</button>
+    </header>
+
+    <main class="contenido una-columna">
+        <div class="encabezado">
+            <div>
+                <h2>🎮 Controles</h2>
+                <p>Teclas para conducir, disparar y moverte por los menús. Puedes abrir esta pantalla en cualquier momento.</p>
+            </div>
+        </div>
+        <section class="grupos-controles" id="grupos"></section>
+    </main>
+
+    <script src="js/comun.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/datos.js"></script>
+    <script>
+        document.getElementById('grupos').innerHTML = CONTROLES.map(g => `
+            <div class="grupo-controles">
+                <h3>${g.grupo}</h3>
+                ${g.filas.map(f => `
+                    <div class="fila-control">
+                        <span>${f.accion}</span>
+                        <span class="teclas">${f.teclas.map(t => `<kbd>${t}</kbd>`).join('')}</span>
+                    </div>`).join('')}
+            </div>`).join('');
+
+        // Vuelve a la pantalla desde donde se abrió (Inicio o Menú principal)
+        const desdeInicio = new URLSearchParams(location.search).get('desde') === 'inicio';
+        const destino = desdeInicio ? 'index.html' : 'menu.html';
+        document.getElementById('ruta-origen').textContent = desdeInicio ? 'Inicio' : 'Menú principal';
+        document.getElementById('btn-volver').addEventListener('click', () => navegar(destino));
+        window.addEventListener('keydown', e => { if (e.key === 'Escape') navegar(destino); });
+    </script>
+</body>
+</html>

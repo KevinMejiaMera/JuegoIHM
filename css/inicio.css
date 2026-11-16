@@ -1,0 +1,92 @@
+/* ── Pantalla de inicio ── */
+.inicio {
+    position: relative;
+    z-index: 10;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 34px;
+    padding: 20px;
+    overflow: hidden;
+}
+
+/* Rejilla en perspectiva de fondo */
+.rejilla {
+    position: fixed;
+    left: -50%;
+    right: -50%;
+    bottom: -10%;
+    height: 60%;
+    z-index: 2;
+    background-image:
+        linear-gradient(rgba(168, 85, 247, 0.45) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(168, 85, 247, 0.45) 1px, transparent 1px);
+    background-size: 60px 60px;
+    transform: perspective(500px) rotateX(62deg);
+    transform-origin: center top;
+    animation: avanzarRejilla 1.6s linear infinite;
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 40%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 40%);
+}
+@keyframes avanzarRejilla { from { background-position: 0 0; } to { background-position: 0 60px; } }
+
+.sol {
+    position: fixed;
+    top: 18%;
+    left: 50%;
+    width: 420px;
+    height: 420px;
+    margin-left: -210px;
+    border-radius: 50%;
+    z-index: 2;
+    background: radial-gradient(circle, rgba(236, 72, 153, 0.35) 0%, rgba(168, 85, 247, 0.15) 45%, transparent 70%);
+    filter: blur(6px);
+}
+
+.lema {
+    font-family: var(--fuente-tecnica);
+    font-size: clamp(14px, 1.6vw, 18px);
+    letter-spacing: 6px;
+    color: var(--cian);
+    text-transform: uppercase;
+    text-shadow: 0 0 12px var(--cian);
+}
+
+.acciones-inicio {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: center;
+}
+.acciones-inicio .boton-principal {
+    font-size: 20px;
+    padding: 18px 64px;
+    letter-spacing: 4px;
+}
+.acciones-inicio .secundarias { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+.pista-tecla {
+    font-family: var(--fuente-tecnica);
+    font-size: 14px;
+    letter-spacing: 2px;
+    color: var(--texto-tenue);
+    animation: parpadeo 1.6s infinite;
+}
+@keyframes parpadeo { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+.pie-inicio {
+    position: fixed;
+    bottom: 14px;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 22px;
+    font-family: var(--fuente-tecnica);
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    color: var(--texto-tenue);
+}

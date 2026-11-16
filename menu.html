@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero Horizon · Menú principal</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/menu.css">
+</head>
+<body>
+    <canvas id="lienzo-3d"></canvas>
+    <div class="efecto-lineas"></div>
+    <div class="efecto-vineta"></div>
+
+    <header class="barra-superior">
+        <span class="ruta">Inicio / <b>Menú principal</b></span>
+        <span class="espaciador"></span>
+        <div class="saldo" title="Tu saldo">
+            <span class="diamantes">💎 <span data-saldo="diamantes">0</span></span>
+            <span class="creditos">⚡ <span data-saldo="creditos">0</span></span>
+        </div>
+        <button class="boton" data-ir="controles.html">🎮 Controles</button>
+        <button class="boton" data-accion="sonido">🔊 Sonido: activado</button>
+        <button class="boton" data-ir="index.html">⏻ Salir</button>
+    </header>
+
+    <main class="menu-principal">
+        <section class="zona-escenario">
+            <div class="logotipo">
+                <span class="palabra zero">Zero</span>
+                <span class="palabra horizon">Horizon</span>
+            </div>
+            <nav class="lista-secciones" id="lista-secciones" aria-label="Secciones del juego"></nav>
+            <div class="pista-vista">🖱️ Arrastra el vehículo para girarlo · Rueda para acercar</div>
+        </section>
+
+        <aside class="columna-lateral">
+            <div class="panel perfil">
+                <div class="avatar">👤<span class="nivel" id="perfil-nivel">NV. 48</span></div>
+                <div>
+                    <div class="nombre" id="perfil-nombre">CYBER_PILOT_01</div>
+                    <div class="rango" id="perfil-rango">Maestro Estelar</div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>Equipamiento actual</h2>
+                <div class="equipo">
+                    <div class="fila-equipo" data-ir="circuitos.html"><span class="etq">Circuito</span><span class="val" id="eq-circuito">—</span></div>
+                    <div class="fila-equipo" data-ir="garaje.html"><span class="etq">Vehículo</span><span class="val" id="eq-vehiculo">—</span></div>
+                    <div class="fila-equipo" data-ir="armas.html"><span class="etq">Arma</span><span class="val" id="eq-arma">—</span></div>
+                    <div class="fila-equipo" data-ir="pilotos.html"><span class="etq">Piloto</span><span class="val" id="eq-piloto">—</span></div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>Pintura</h2>
+                <div class="paleta" id="paleta" role="radiogroup" aria-label="Color de pintura"></div>
+                <div class="nombre-pintura" id="nombre-pintura">—</div>
+            </div>
+
+            <div class="panel">
+                <h2>Vista previa</h2>
+                <div class="botones-vista">
+                    <button class="boton" id="btn-girar">⟳ Girar 360°</button>
+                    <button class="boton" id="btn-turbo">🔥 Probar turbo</button>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="js/comun.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/datos.js"></script>
+    <script src="js/auto3d.js"></script>
+    <script src="js/menu.js"></script>
+</body>
+</html>

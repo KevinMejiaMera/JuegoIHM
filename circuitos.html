@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero Horizon · Jugar</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/catalogo.css">
+</head>
+<body class="pagina-catalogo">
+    <div class="efecto-lineas"></div>
+    <div class="efecto-vineta"></div>
+
+    <header class="barra-superior">
+        <button class="boton" data-ir="menu.html">← Volver al menú</button>
+        <span class="ruta">Menú principal / <b>Jugar</b></span>
+        <span class="espaciador"></span>
+        <div class="saldo">
+            <span class="diamantes">💎 <span data-saldo="diamantes">0</span></span>
+            <span class="creditos">⚡ <span data-saldo="creditos">0</span></span>
+        </div>
+        <button class="boton" data-accion="sonido">🔊 Sonido: activado</button>
+    </header>
+
+    <main class="contenido">
+        <div class="encabezado">
+            <div>
+                <h2>▶ Elige un circuito</h2>
+                <p>Selecciona el circuito y pulsa <b>Iniciar carrera</b>. Cada circuito tiene su propia forma y obstáculos. Gana quien complete primero 3 vueltas.</p>
+            </div>
+        </div>
+        <section class="rejilla-tarjetas" id="rejilla" aria-label="Circuitos"></section>
+        <aside class="detalle" id="detalle" aria-live="polite"></aside>
+    </main>
+
+    <script src="js/comun.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/datos.js"></script>
+    <script src="js/catalogo.js"></script>
+    <script>
+        Catalogo.iniciar({
+            items: CIRCUITOS,
+            seleccionInicial: Estado.get('circuito'),
+            estadoDe: it => it.id === Estado.get('circuito') ? { texto: 'Último jugado', clase: 'activo' } : null,
+            iconoDe: it => trazadoSVG(it),
+            visualDe: it => trazadoSVG(it, true),
+            claseVisual: 'mapa',
+            accionDe: it => ({
+                texto: '🏁 Iniciar carrera',
+                nota: `${REGLAS_CARRERA.vueltas} vueltas · 3 rivales · Premio: ${REGLAS_CARRERA.premioVictoria} 💎
+                    <div class="leyenda" style="margin-top:8px">
+                        <span><i style="background:#ef4444"></i>Picos</span>
+                        <span><i style="background:#38bdf8"></i>Turbo</span>
+                        <span><i style="background:#22c55e"></i>Reparación</span>
+                        ${it.pista.rampas.length ? '<span><i style="border:2px solid #facc15"></i>Rampa</span>' : ''}
+                        ${it.pista.aceleradores.length ? '<span><i style="border:2px solid #ec4899"></i>Acelerador</span>' : ''}
+                        ${it.pista.cajas.length ? '<span><i style="background:#94a3b8;border-radius:0"></i>Caja</span>' : ''}
+                    </div>`,
+                alHacer: () => {
+                    Estado.set('circuito', it.id);
+                    navegar('carrera.html');
+                }
+            })
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+/* ── Pantalla de carrera ── */
+#hud {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 22px;
+}
+.hud-superior { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+
+.hud-izquierda { display: flex; flex-direction: column; gap: 12px; }
+.caja-hud {
+    background: var(--panel);
+    border: 2px solid var(--cian);
+    border-radius: 8px;
+    width: 172px;
+    box-shadow: 0 0 22px var(--cian-brillo);
+}
+.velocimetro { padding: 8px 18px; text-align: center; }
+.velocimetro .valor { font-family: var(--fuente-titulo); font-size: 36px; font-weight: 900; text-shadow: 0 0 15px var(--cian); }
+.velocimetro .unidad { font-family: var(--fuente-tecnica); font-size: 13px; color: var(--cian); letter-spacing: 2px; }
+
+.radar { border-color: var(--morado); box-shadow: 0 0 20px var(--morado-brillo); height: 122px; padding: 6px; }
+.radar canvas { width: 100%; height: 100%; display: block; }
+
+.blindaje { border-color: var(--verde); box-shadow: 0 0 20px rgba(34, 197, 94, 0.4); padding: 8px 14px; display: flex; flex-direction: column; gap: 6px; transition: border-color 0.3s; }
+.blindaje .cab { display: flex; justify-content: space-between; font-family: var(--fuente-tecnica); font-size: 13px; font-weight: 800; letter-spacing: 1px; }
+.blindaje .cab .titulo { color: #4ade80; }
+.blindaje .pista-barra { height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 4px; overflow: hidden; }
+.blindaje .relleno { height: 100%; width: 100%; background: linear-gradient(90deg, #22c55e, #4ade80); transition: width 0.25s, background 0.25s; }
+
+.turbo { border-color: var(--cian); box-shadow: 0 0 20px var(--cian-brillo); }
+.turbo .cab .titulo { color: var(--cian); }
+.turbo .relleno { background: linear-gradient(90deg, #38bdf8, #a855f7); }
+
+.hud-inferior { display: flex; justify-content: flex-end; gap: 12px; align-items: flex-end; }
+.caja-equipo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 250px;
+    background: var(--panel);
+    border: 2px solid var(--borde);
+    border-radius: 10px;
+    padding: 10px 14px;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.caja-equipo.lista { border-color: var(--verde); box-shadow: 0 0 24px rgba(34, 197, 94, 0.55); }
+.caja-equipo.activa { border-color: var(--dorado); box-shadow: 0 0 28px rgba(250, 204, 21, 0.7); }
+.icono-equipo {
+    width: 48px; height: 48px; flex-shrink: 0;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #181238, #2a0845);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    display: flex; align-items: center; justify-content: center;
+}
+.icono-equipo svg { width: 30px; height: 30px; }
+.texto-equipo { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.texto-equipo .etq { font-family: var(--fuente-tecnica); font-size: 11px; font-weight: 800; letter-spacing: 1.5px; color: var(--texto-tenue); }
+.texto-equipo .etq kbd { font-size: 10px; padding: 0 5px; min-width: 0; }
+.texto-equipo .nombre { font-family: var(--fuente-titulo); font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.texto-equipo .estado { font-family: var(--fuente-tecnica); font-size: 12px; font-weight: 700; color: var(--verde); letter-spacing: 1px; }
+.caja-equipo .pista-barra { height: 6px; background: rgba(255, 255, 255, 0.1); border-radius: 3px; overflow: hidden; }
+.caja-equipo .relleno { height: 100%; width: 100%; background: linear-gradient(90deg, var(--cian), var(--morado)); }
+
+.info-carrera {
+    background: var(--panel);
+    border: 1px solid var(--morado);
+    border-radius: 8px;
+    padding: 10px 24px;
+    text-align: center;
+    box-shadow: 0 0 18px var(--morado-brillo);
+}
+.info-carrera .circuito { font-family: var(--fuente-titulo); font-size: 16px; letter-spacing: 1.5px; }
+.info-carrera .datos { display: flex; gap: 18px; justify-content: center; margin-top: 6px; font-family: var(--fuente-tecnica); font-size: 14px; font-weight: 700; letter-spacing: 1.5px; color: var(--cian); }
+.info-carrera .datos b { color: #fff; }
+
+.hud-derecha { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; pointer-events: auto; }
+.ayuda-teclas {
+    background: var(--panel);
+    border: 1px solid var(--borde);
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-family: var(--fuente-tecnica);
+    font-size: 13px;
+    color: var(--texto-suave);
+    line-height: 1.9;
+    text-align: right;
+}
+
+/* Destello rojo al recibir daño */
+#destello-dano {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at center, transparent 30%, rgba(239, 68, 68, 0.6) 100%);
+    pointer-events: none;
+    z-index: 55;
+    opacity: 0;
+    transition: opacity 0.15s ease-out;
+}
+
+/* Cuenta regresiva */
+#cuenta-regresiva {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(3, 2, 10, 0.6);
+    backdrop-filter: blur(6px);
+}
+#cuenta-regresiva.visible { display: flex; }
+#cuenta-regresiva .numero {
+    font-family: var(--fuente-titulo);
+    font-size: 130px;
+    font-weight: 900;
+    color: var(--cian);
+    text-shadow: 0 0 50px var(--cian-brillo);
+    animation: latido 0.9s ease-out infinite;
+}
+@keyframes latido {
+    0% { transform: scale(0.6); opacity: 0; }
+    50% { transform: scale(1.15); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.9; }
+}
+
+/* Aviso fuera de pista */
+#aviso-pista {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(239, 68, 68, 0.92);
+    border: 2px solid #fff;
+    padding: 14px 32px;
+    border-radius: 8px;
+    font-family: var(--fuente-titulo);
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    box-shadow: 0 0 40px rgba(239, 68, 68, 0.9);
+    z-index: 65;
+    display: none;
+    text-align: center;
+}
+
+/* Paneles superpuestos: Pausa y Resultados */
+.capa-panel {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(3, 2, 10, 0.85);
+    backdrop-filter: blur(14px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.capa-panel.visible { display: flex; }
+.panel-central {
+    width: 100%;
+    max-width: 600px;
+    background: #0c0820;
+    border: 2px solid var(--morado);
+    border-radius: 14px;
+    box-shadow: 0 0 60px var(--morado-brillo);
+    padding: 30px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+    animation: avisoEntra 0.25s ease-out;
+}
+.panel-central h2 { font-family: var(--fuente-titulo); font-size: clamp(28px, 4.5vw, 42px); font-weight: 900; letter-spacing: 4px; }
+.panel-central .subtitulo { font-family: var(--fuente-tecnica); font-size: 16px; font-weight: 600; color: var(--texto-suave); letter-spacing: 1px; }
+.panel-central .emblema { font-size: 64px; animation: latido 1.2s infinite alternate ease-in-out; }
+
+.lista-acciones { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 340px; }
+.lista-acciones .boton { width: 100%; padding: 14px; font-size: 15px; }
+
+.tabla-resultados { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; width: 100%; margin: 6px 0; }
+.dato-resultado {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    border-radius: 8px;
+    padding: 12px 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.dato-resultado .num { font-family: var(--fuente-titulo); font-size: 20px; font-weight: 900; color: var(--cian); }
+.dato-resultado .etq { font-family: var(--fuente-tecnica); font-size: 11px; font-weight: 700; color: var(--texto-tenue); letter-spacing: 1px; text-transform: uppercase; }
+.premio {
+    font-family: var(--fuente-titulo);
+    font-size: 18px;
+    color: var(--dorado);
+    background: rgba(250, 204, 21, 0.1);
+    border: 1px solid rgba(250, 204, 21, 0.4);
+    padding: 8px 20px;
+    border-radius: 8px;
+}
+.acciones-resultado { display: flex; gap: 10px; width: 100%; flex-wrap: wrap; }
+.acciones-resultado .boton { flex: 1; min-width: 150px; padding: 13px; }
+
+.controles-pausa { width: 100%; display: none; text-align: left; font-size: 14px; }
+.controles-pausa.visible { display: block; }
+.controles-pausa .fila { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.07); }
+
+@media (max-width: 760px) {
+    .ayuda-teclas { display: none; }
+    .tabla-resultados { grid-template-columns: repeat(2, 1fr); }
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero Horizon · Garaje</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/catalogo.css">
+</head>
+<body class="pagina-catalogo">
+    <div class="efecto-lineas"></div>
+    <div class="efecto-vineta"></div>
+
+    <header class="barra-superior">
+        <button class="boton" data-ir="menu.html">← Volver al menú</button>
+        <span class="ruta">Menú principal / <b>Garaje</b></span>
+        <span class="espaciador"></span>
+        <div class="saldo">
+            <span class="diamantes">💎 <span data-saldo="diamantes">0</span></span>
+            <span class="creditos">⚡ <span data-saldo="creditos">0</span></span>
+        </div>
+        <button class="boton" data-accion="sonido">🔊 Sonido: activado</button>
+    </header>
+
+    <main class="contenido">
+        <div class="encabezado">
+            <div>
+                <h2>🚗 Garaje</h2>
+                <p>Elige el vehículo con el que vas a correr. El vehículo en uso aparece marcado como <b>En uso</b>.</p>
+            </div>
+        </div>
+        <section class="rejilla-tarjetas" id="rejilla" aria-label="Vehículos"></section>
+        <aside class="detalle" id="detalle" aria-live="polite"></aside>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="js/comun.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/datos.js"></script>
+    <script src="js/auto3d.js"></script>
+    <script src="js/catalogo.js"></script>
+    <script>
+        // Vista previa 3D del vehículo seleccionado (si el motor 3D no carga, se usa el icono)
+        let vista = null;
+        try { if (typeof THREE !== 'undefined') vista = crearVistaPrevia(); } catch (e) { vista = null; }
+
+        Catalogo.iniciar({
+            items: VEHICULOS,
+            seleccionInicial: Estado.get('vehiculo'),
+            visualDe: it => vista ? ' ' : null,
+            alPintar: (it, contenedor) => {
+                if (!vista || !contenedor) return;
+                contenedor.classList.add('visual-3d');
+                contenedor.innerHTML = '';
+                contenedor.appendChild(vista.lienzo);
+                vista.mostrar(it.id, Estado.get('pintura'), !!it.bloqueado);
+                vista.ajustar();
+            },
+            estadoDe: it => it.id === Estado.get('vehiculo') ? { texto: 'En uso', clase: 'activo' }
+                          : it.bloqueado ? { texto: '🔒 Bloqueado', clase: 'bloqueado' }
+                          : { texto: 'Disponible', clase: 'disponible' },
+            accionDe: it => {
+                if (it.id === Estado.get('vehiculo')) return { texto: '✓ En uso', deshabilitada: true, alHacer: () => {} };
+                if (it.bloqueado) return {
+                    texto: '🔒 Bloqueado', clase: '', bloqueada: true, nota: it.bloqueado,
+                    alHacer: () => aviso(`No puedes usar ${it.nombre}: ${it.bloqueado}`, 'error', 3500)
+                };
+                return {
+                    texto: 'Usar este vehículo',
+                    alHacer: () => { Estado.set('vehiculo', it.id); aviso(`${it.nombre} ahora está en uso.`, 'exito'); }
+                };
+            }
+        });
+    </script>
+</body>
+</html>

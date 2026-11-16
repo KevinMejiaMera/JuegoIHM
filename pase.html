@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero Horizon · Pase de batalla</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/catalogo.css">
+</head>
+<body class="pagina-catalogo">
+    <div class="efecto-lineas"></div>
+    <div class="efecto-vineta"></div>
+
+    <header class="barra-superior">
+        <button class="boton" data-ir="menu.html">← Volver al menú</button>
+        <span class="ruta">Menú principal / <b>Pase de batalla</b></span>
+        <span class="espaciador"></span>
+        <div class="saldo">
+            <span class="diamantes">💎 <span data-saldo="diamantes">0</span></span>
+            <span class="creditos">⚡ <span data-saldo="creditos">0</span></span>
+        </div>
+        <button class="boton" data-accion="sonido">🔊 Sonido: activado</button>
+    </header>
+
+    <main class="contenido">
+        <div class="encabezado">
+            <div>
+                <h2>🛡️ Pase de batalla · <span id="temporada"></span></h2>
+                <p>Sube de nivel corriendo y reclama recompensas. Las recompensas de un nivel mayor al tuyo están bloqueadas.</p>
+            </div>
+            <div class="progreso-pase">
+                <span class="num" id="pase-nivel">0</span>
+                <div class="info">
+                    Nivel actual de 50
+                    <div class="barra"><div id="pase-barra" style="width:0%"></div></div>
+                </div>
+            </div>
+        </div>
+        <section class="rejilla-tarjetas" id="rejilla" aria-label="Recompensas"></section>
+        <aside class="detalle" id="detalle" aria-live="polite"></aside>
+    </main>
+
+    <script src="js/comun.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/datos.js"></script>
+    <script src="js/catalogo.js"></script>
+    <script>
+        const nivel = PASE.nivelActual;
+        document.getElementById('temporada').textContent = PASE.temporada;
+        document.getElementById('pase-nivel').textContent = nivel;
+        document.getElementById('pase-barra').style.width = `${(nivel / 50) * 100}%`;
+
+        const reclamadas = () => Estado.get('reclamadas', []);
+        const items = PASE.recompensas.map(r => ({
+            ...r,
+            etiqueta: `Nivel ${r.nivel}`,
+            stats: [{ nombre: 'Tipo', texto: r.tipo }]
+        }));
+
+        Catalogo.iniciar({
+            items,
+            estadoDe: it => reclamadas().includes(it.id) ? { texto: 'Reclamada', clase: 'comprado' }
+                          : nivel >= it.nivel ? { texto: 'Disponible', clase: 'disponible' }
+                          : { texto: '🔒 Bloqueada', clase: 'bloqueado' },
+            accionDe: it => {
+                if (reclamadas().includes(it.id)) return { texto: '✓ Reclamada', deshabilitada: true, alHacer: () => {} };
+                if (nivel < it.nivel) return {
+                    texto: '🔒 Bloqueada', clase: '', bloqueada: true,
+                    nota: `Te faltan ${it.nivel - nivel} niveles para desbloquearla.`,
+                    alHacer: () => aviso(`Aún no alcanzas el nivel ${it.nivel}. Tu nivel es ${nivel}.`, 'error', 3500)
+                };
+                return {
+                    texto: '🎁 Reclamar recompensa',
+                    alHacer: () => {
+                        Estado.set('reclamadas', [...reclamadas(), it.id]);
+                        aviso(`Recompensa reclamada: ${it.nombre}.`, 'exito');
+                    }
+                };
+            }
+        });
+    </script>
+</body>
+</html>

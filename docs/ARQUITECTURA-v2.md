@@ -1,0 +1,88 @@
+# Zero Horizon · Fase 2 (arquitectura de información v2)
+
+## 1. Mapa de pantallas
+
+```
+Inicio (index.html)
+├── Controles (controles.html?desde=inicio)
+└── Menú principal (menu.html)
+    ├── Jugar → Elige un circuito (circuitos.html)
+    │          └── Carrera (carrera.html)
+    │              ├── Cuenta regresiva 3·2·1·¡YA!
+    │              ├── Aviso: ¡Fuera de pista!
+    │              ├── Pausa  → Continuar / Reiniciar carrera / Ver controles / Volver al menú
+    │              └── Resultados: Victoria · Derrota · Vehículo destruido
+    ├── Garaje (garaje.html)
+    ├── Armas (armas.html)
+    ├── Pilotos (pilotos.html)
+    ├── Pase de batalla (pase.html)
+    ├── Tienda (tienda.html)
+    └── Controles (controles.html)
+```
+
+Todas las pantallas internas tienen la misma barra superior: **← Volver al menú**, la ruta
+(`Menú principal / Sección`), el saldo (💎 diamantes, ⚡ créditos) y el botón **Sonido**.
+La tecla `Esc` siempre regresa un nivel (o pausa, dentro de la carrera).
+
+## 2. Vocabulario controlado (antes → ahora)
+
+| Fase 1 | Fase 2 | Motivo |
+|---|---|---|
+| Play | **Jugar** | Todo en español |
+| Colección / GARAJE | **Garaje** | Un solo nombre por sección |
+| Agentes / PILOTOS | **Pilotos** | Un solo nombre por sección |
+| Base de Batalla (abría "pase") | **Pase de batalla** | El botón y la pantalla se llaman igual |
+| GAME · Personalización Neón | **Pintura** | Describe lo que hace |
+| Actualización · [A] Inspeccionar · [B] Turbo Prueba | **Vista previa** · **Girar 360°** · **Probar turbo** | Las letras A/B no decían nada |
+| SFX: ON / OFF | **Sonido: activado / desactivado** | Lenguaje del usuario |
+| SALIR AL LOBBY / ✕ | **Volver al menú** | Una sola acción para salir |
+| REINICIAR PARTIDA | **Reiniciar carrera** | "Carrera" en todo el juego |
+| INICIAR PARTIDA | **Iniciar carrera** | Ídem |
+| ¡GO! | **¡YA!** | Español |
+| ¡FUERA DE PISTA! RESCATANDO VEHÍCULO… | **¡Fuera de pista! Volviendo a la pista…** | Más claro |
+| CP / Créditos (mezclados) | **Créditos ⚡** | Una moneda, un nombre |
+| 💎 sin nombre / precios en $ | **Diamantes 💎** | Todo se compra con diamantes |
+| Minigun, TIER S, Hacking, Skins | **Metralleta**, **Clase S**, **Interferencia**, **Pinturas** | Sin anglicismos |
+| LV.48 | **NV. 48** | Español |
+
+Estados que se repiten en las tarjetas: **En uso** / **Equipada** / **Elegido** (lo que tienes activo),
+**Disponible**, **🔒 Bloqueado(a)**, **Comprado**, **Reclamada**.
+
+## 3. Matriz de retroalimentación (mensajes y errores)
+
+| Situación | Qué ve el jugador | Tipo |
+|---|---|---|
+| Elegir un vehículo, arma o piloto | Aviso verde: "Hyperion GT ahora está en uso." | Éxito |
+| Intentar usar **Viper Stealth** | Aviso rojo: "No puedes usar Viper Stealth: alcanza el nivel 50…" | Error |
+| Reclamar una recompensa de nivel mayor | Aviso rojo: "Aún no alcanzas el nivel 40. Tu nivel es 32." | Error |
+| Comprar sin diamantes (Efecto Supernova) | Nota + aviso rojo: "Diamantes insuficientes: te faltan 💎 5.750…" | Error |
+| Comprar con saldo | Diálogo **Confirmar compra** con saldo antes/después | Prevención |
+| Reiniciar o abandonar la carrera | Diálogo **¿Reiniciar carrera?** / **¿Volver al menú?** | Prevención |
+| Salir de la pista | Banner rojo "¡Fuera de pista!" y regresa solo | Recuperación |
+| Chocar con picos | Destello rojo + baja el **Blindaje** (verde → amarillo → rojo) | Estado |
+| Cambiar de ventana en plena carrera | Se abre **Pausa** automáticamente | Prevención |
+| Se cae el internet | Aviso rojo: "Sin conexión a internet…" / verde al volver | Error |
+| No carga el motor 3D (sin internet al abrir) | Pantalla **No se pudo cargar el motor gráfico** + **↻ Reintentar** | Error |
+| Fin de carrera | **¡Victoria!** / **Derrota** / **Vehículo destruido** + tiempo + 💎 ganados | Resultado |
+
+## 4. Guion sugerido del video (máx. 2 min)
+
+| Tiempo | Qué mostrar |
+|---|---|
+| 0:00–0:10 | Inicio → **Comenzar** |
+| 0:10–0:30 | Menú principal: girar el auto, cambiar **Pintura**, **Probar turbo** |
+| 0:30–0:50 | Garaje (usar vehículo + error de **Viper Stealth**) y Tienda (error de **saldo insuficiente**, compra con confirmación) |
+| 0:50–1:30 | **Jugar** → elegir circuito → cuenta regresiva → conducir, disparar, chocar con picos, salir de la pista |
+| 1:30–1:45 | **Pausa** (Esc) → Volver al menú → diálogo de confirmación |
+| 1:45–2:00 | Pantalla de **Resultados** o error de conexión (desconectar Wi-Fi y recargar → **Reintentar**) |
+
+## 5. Archivos
+
+```
+index.html  menu.html  circuitos.html  carrera.html  garaje.html
+armas.html  pilotos.html  pase.html  tienda.html  controles.html
+css/  base.css · inicio.css · menu.css · catalogo.css · carrera.css
+js/   comun.js (estado, avisos, diálogos, errores) · audio.js · datos.js (vocabulario)
+      auto3d.js (escena y vehículo) · menu.js · catalogo.js · carrera.js
+fase1/index.html  ← versión original de la fase 1, sin cambios
+```
