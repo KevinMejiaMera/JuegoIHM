@@ -4,11 +4,41 @@
 
 // ── Lista de secciones ──
 const lista = document.getElementById('lista-secciones');
-lista.innerHTML = SECCIONES.map(s => `
-    <button class="opcion-menu ${s.principal ? 'principal' : ''} ${s.destacado ? 'destacado' : ''}" data-ir="${s.pagina}">
+lista.innerHTML = SECCIONES.map(s => s.principal ? `
+    <button class="opcion-menu principal" id="btn-jugar" aria-expanded="false" aria-controls="submenu-jugar">
+        <span>${s.icono} ${s.nombre}</span>
+        <span class="detalle">${s.detalle} ▾</span>
+    </button>
+    <div class="submenu-jugar" id="submenu-jugar" role="group" aria-label="Elige el modo de juego">
+        <button class="opcion-modo" data-ir="${s.pagina}?modo=1">
+            <span class="icono-modo">👤</span>
+            <span><b>1 jugador</b><small>Tú contra 3 rivales</small></span>
+        </button>
+        <button class="opcion-modo" data-ir="${s.pagina}?modo=2">
+            <span class="icono-modo">👥</span>
+            <span><b>2 jugadores</b><small>Pantalla dividida · WASD y flechas</small></span>
+        </button>
+    </div>` : `
+    <button class="opcion-menu ${s.destacado ? 'destacado' : ''}" data-ir="${s.pagina}">
         <span>${s.icono} ${s.nombre}</span>
         <span class="detalle">${s.detalle}</span>
     </button>`).join('');
+
+// Jugar despliega la elección de modo (1 o 2 jugadores)
+const btnJugar = document.getElementById('btn-jugar');
+const submenu = document.getElementById('submenu-jugar');
+function desplegarJugar(abrir) {
+    btnJugar.setAttribute('aria-expanded', abrir);
+    submenu.classList.toggle('abierto', abrir);
+    if (abrir) submenu.querySelector('.opcion-modo').focus();
+}
+btnJugar.addEventListener('click', () => {
+    Sonido.clic();
+    desplegarJugar(btnJugar.getAttribute('aria-expanded') !== 'true');
+});
+window.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && submenu.classList.contains('abierto')) { desplegarJugar(false); btnJugar.focus(); }
+});
 
 // ── Perfil y equipamiento ──
 document.getElementById('perfil-nombre').textContent = Estado.get('piloto');

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero Horizon · Elegir jugadores</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/catalogo.css">
+</head>
+<body class="pagina-catalogo">
+    <div class="efecto-lineas"></div>
+    <div class="efecto-vineta"></div>
+
+    <header class="barra-superior">
+        <button class="boton" data-ir="circuitos.html?modo=2">← Volver a circuitos</button>
+        <span class="ruta">Menú principal / Jugar / 2 jugadores / <b>Elegir jugadores</b></span>
+        <span class="espaciador"></span>
+        <button class="boton" data-accion="sonido">🔊 Sonido: activado</button>
+    </header>
+
+    <main class="contenido una-columna contenido-jugadores">
+        <div class="encabezado">
+            <div>
+                <h2>👥 Elegir jugadores</h2>
+                <p>Cada jugador elige su vehículo, arma, piloto y pintura. Circuito: <b id="nombre-circuito">—</b> · Usen pinturas distintas para reconocerse.</p>
+            </div>
+            <button class="boton boton-principal" id="btn-iniciar">🏁 Iniciar carrera</button>
+        </div>
+
+        <section class="dos-jugadores">
+            <article class="panel-jugador" id="panel-j1" data-n="1"></article>
+            <article class="panel-jugador" id="panel-j2" data-n="2"></article>
+        </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="js/comun.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/datos.js"></script>
+    <script src="js/auto3d.js"></script>
+    <script>
+        document.getElementById('nombre-circuito').textContent = buscarPor(CIRCUITOS, Estado.get('circuito')).nombre;
+
+        // Equipo de cada jugador: J1 usa el equipamiento del menú; J2 se guarda aparte
+        const equipo = {
+            1: { vehiculo: Estado.get('vehiculo'), arma: Estado.get('arma'), agente: Estado.get('agente'), pintura: Estado.get('pintura') },
+            2: Object.assign({ vehiculo: 'hyperion', arma: 'laser', agente: 'kaelen', pintura: '#22c55e' }, Estado.get('j2', {}))
+        };
+        function guardar(n) {
+            if (n === 1) ['vehiculo', 'arma', 'agente', 'pintura'].forEach(k => Estado.set(k, equipo[1][k]));
+            else Estado.set('j2', equipo[2]);
+        }
+
+        const TECLAS_TXT = {
+            1: '<kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> conducir · <kbd>Espacio</kbd> turbo · <kbd>F</kbd> disparar · <kbd>E</kbd> habilidad',
+            2: '<kbd>▲</kbd><kbd>◀</kbd><kbd>▼</kbd><kbd>▶</kbd> conducir · <kbd>Shift der.</kbd> turbo · <kbd>Ctrl der.</kbd> disparar · <kbd>Enter</kbd> habilidad'
+        };
+
+        // Vista previa 3D de cada jugador
+        const vistas = {};
+        try {
+            if (typeof THREE !== 'undefined') { vistas[1] = crearVistaPrevia(); vistas[2] = crearVistaPrevia(); }
+        } catch (e) { /* sin 3D: se muestra solo la lista */ }
+
+        function opciones(n, campo, lista, etiqueta) {
+            return `<div class="grupo-opciones">
+                <h4>${etiqueta}</h4>
+                <div class="chips" role="radiogroup" aria-label="${etiqueta} del jugador ${n}">
+                    ${lista.map(it => `
+                        <button class="chip ${it.bloqueado ? 'bloqueado' : ''}" role="radio" data-n="${n}" data-campo="${campo}" data-id="${it.id}"
+                                aria-checked="${equipo[n][campo] === it.id}" title="${it.descripcion}">
+                            <span class="chip-icono">${ICONOS[it.icono] || ''}</span>${it.bloqueado ? '🔒 ' : ''}${it.nombre}
+                        </button>`).join('')}
+                </div>
+            </div>`;
+        }
+
+        function pintarPanel(n) {
+            const eq = equipo[n];
+            const veh = buscarPor(VEHICULOS, eq.vehiculo), arma = buscarPor(ARMAS, eq.arma), pil = buscarPor(PILOTOS, eq.agente);
+            const panel = document.getElementById(`panel-j${n}`);
+            panel.style.setProperty('--color-jugador', eq.pintura);
+            panel.innerHTML = `
+                <header class="cabecera-jugador">
+                    <h3>Jugador ${n}</h3>
+                    <span class="lado-pantalla">${n === 1 ? '◧ Pantalla izquierda' : 'Pantalla derecha ◨'}</span>
+                </header>
+                <p class="teclas-jugador">${TECLAS_TXT[n]}</p>
+                <div class="vista-jugador-3d" id="vista-${n}"></div>
+                <p class="resumen-jugador"><b>${veh.nombre}</b> · ${arma.nombre} · ${pil.nombre} (${pil.habilidad.nombre})</p>
+                ${opciones(n, 'vehiculo', VEHICULOS, 'Vehículo')}
+                ${opciones(n, 'arma', ARMAS, 'Arma')}
+                ${opciones(n, 'agente', PILOTOS, 'Piloto')}
+                <div class="grupo-opciones">
+                    <h4>Pintura</h4>
+                    <div class="paleta-j" role="radiogroup" aria-label="Pintura del jugador ${n}">
+                        ${PINTURAS.map(p => `<button class="muestra-j" role="radio" data-n="${n}" data-pintura="${p.color}" title="${p.nombre}"
+                            style="background:${p.color}; color:${p.color}" aria-checked="${eq.pintura === p.color}"></button>`).join('')}
+                    </div>
+                </div>`;
+            if (vistas[n]) {
+                const cont = document.getElementById(`vista-${n}`);
+                cont.appendChild(vistas[n].lienzo);
+                vistas[n].mostrar(veh.id, eq.pintura);
+                vistas[n].ajustar();
+            }
+        }
+
+        document.querySelector('.dos-jugadores').addEventListener('click', e => {
+            const chip = e.target.closest('.chip');
+            const muestra = e.target.closest('.muestra-j');
+            if (chip) {
+                const n = Number(chip.dataset.n), campo = chip.dataset.campo, id = chip.dataset.id;
+                const item = buscarPor(campo === 'vehiculo' ? VEHICULOS : campo === 'arma' ? ARMAS : PILOTOS, id);
+                if (item.bloqueado) {
+                    aviso(`Jugador ${n}: no puedes usar ${item.nombre}. ${item.bloqueado}`, 'error', 3500);
+                    return;
+                }
+                equipo[n][campo] = id;
+                guardar(n);
+                Sonido.clic();
+                pintarPanel(n);
+            } else if (muestra) {
+                const n = Number(muestra.dataset.n);
+                equipo[n].pintura = muestra.dataset.pintura;
+                guardar(n);
+                Sonido.clic();
+                pintarPanel(n);
+                if (equipo[1].pintura === equipo[2].pintura) aviso('Los dos jugadores tienen la misma pintura. Elijan colores distintos.', 'error', 3000);
+            }
+        });
+
+        document.getElementById('btn-iniciar').addEventListener('click', () => {
+            if (equipo[1].pintura === equipo[2].pintura) {
+                aviso('No se puede iniciar: los dos jugadores tienen la misma pintura. Cambien el color de uno.', 'error', 3800);
+                return;
+            }
+            guardar(1);
+            guardar(2);
+            navegar('carrera.html?modo=2');
+        });
+
+        window.addEventListener('keydown', e => { if (e.key === 'Escape') navegar('circuitos.html?modo=2'); });
+
+        pintarPanel(1);
+        pintarPanel(2);
+    </script>
+</body>
+</html>

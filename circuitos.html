@@ -13,7 +13,7 @@
 
     <header class="barra-superior">
         <button class="boton" data-ir="menu.html">← Volver al menú</button>
-        <span class="ruta">Menú principal / <b>Jugar</b></span>
+        <span class="ruta">Menú principal / Jugar / <b id="ruta-modo">1 jugador</b></span>
         <span class="espaciador"></span>
         <div class="saldo">
             <span class="diamantes">💎 <span data-saldo="diamantes">0</span></span>
@@ -26,7 +26,11 @@
         <div class="encabezado">
             <div>
                 <h2>▶ Elige un circuito</h2>
-                <p>Selecciona el circuito y pulsa <b>Iniciar carrera</b>. Cada circuito tiene su propia forma y obstáculos. Gana quien complete primero 3 vueltas.</p>
+                <p id="texto-modo">Selecciona el circuito y pulsa <b>Iniciar carrera</b>. Cada circuito tiene su propia forma y obstáculos. Gana quien complete primero 3 vueltas.</p>
+            </div>
+            <div class="selector-modo" role="radiogroup" aria-label="Modo de juego">
+                <button class="boton" role="radio" data-modo="1">👤 1 jugador</button>
+                <button class="boton" role="radio" data-modo="2">👥 2 jugadores</button>
             </div>
         </div>
         <section class="rejilla-tarjetas" id="rejilla" aria-label="Circuitos"></section>
@@ -38,6 +42,29 @@
     <script src="js/datos.js"></script>
     <script src="js/catalogo.js"></script>
     <script>
+        // Modo elegido en el menú principal (Jugar → 1 o 2 jugadores)
+        let modo = new URLSearchParams(location.search).get('modo') || String(Estado.get('modo', 1));
+        modo = modo === '2' ? 2 : 1;
+        function pintarModo() {
+            Estado.set('modo', modo);
+            document.getElementById('ruta-modo').textContent = modo === 2 ? '2 jugadores' : '1 jugador';
+            document.getElementById('texto-modo').innerHTML = modo === 2
+                ? 'Elige el circuito y pulsa <b>Siguiente: elegir jugadores</b>. Pantalla dividida: Jugador 1 con WASD y Jugador 2 con las flechas.'
+                : 'Selecciona el circuito y pulsa <b>Iniciar carrera</b>. Cada circuito tiene su propia forma y obstáculos. Gana quien complete primero 3 vueltas.';
+            document.querySelectorAll('[data-modo]').forEach(b => {
+                const activo = Number(b.dataset.modo) === modo;
+                b.setAttribute('aria-checked', activo);
+                b.classList.toggle('boton-principal', activo);
+            });
+        }
+        document.querySelectorAll('[data-modo]').forEach(b => b.addEventListener('click', () => {
+            modo = Number(b.dataset.modo);
+            Sonido.clic();
+            pintarModo();
+            Catalogo.pintar();
+        }));
+        pintarModo();
+
         Catalogo.iniciar({
             items: CIRCUITOS,
             seleccionInicial: Estado.get('circuito'),
@@ -46,8 +73,8 @@
             visualDe: it => trazadoSVG(it, true),
             claseVisual: 'mapa',
             accionDe: it => ({
-                texto: '🏁 Iniciar carrera',
-                nota: `${REGLAS_CARRERA.vueltas} vueltas · 3 rivales · Premio: ${REGLAS_CARRERA.premioVictoria} 💎
+                texto: modo === 2 ? '👥 Siguiente: elegir jugadores' : '🏁 Iniciar carrera',
+                nota: `${modo === 2 ? '2 jugadores + ' : ''}3 rivales · ${REGLAS_CARRERA.vueltas} vueltas · Premio: ${REGLAS_CARRERA.premioVictoria} 💎
                     <div class="leyenda" style="margin-top:8px">
                         <span><i style="background:#ef4444"></i>Picos</span>
                         <span><i style="background:#38bdf8"></i>Turbo</span>
@@ -58,7 +85,7 @@
                     </div>`,
                 alHacer: () => {
                     Estado.set('circuito', it.id);
-                    navegar('carrera.html');
+                    navegar(modo === 2 ? 'jugadores.html' : 'carrera.html?modo=1');
                 }
             })
         });

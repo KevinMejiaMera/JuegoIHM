@@ -39,6 +39,9 @@ body.pagina-catalogo .efecto-vineta { position: fixed; }
 }
 .encabezado p { color: var(--texto-suave); font-size: 15px; margin-top: 6px; max-width: 640px; }
 
+.selector-modo { display: flex; gap: 8px; }
+.selector-modo .boton { padding: 10px 18px; }
+
 /* Rejilla de tarjetas */
 .rejilla-tarjetas {
     display: grid;
@@ -206,7 +209,63 @@ body.pagina-catalogo .efecto-vineta { position: fixed; }
 .fila-control:last-child { border-bottom: none; }
 .fila-control .teclas { display: flex; gap: 6px; flex-shrink: 0; }
 
+/* Elegir jugadores (2 jugadores) */
+.contenido-jugadores { max-width: 1280px; }
+.dos-jugadores { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.panel-jugador {
+    --color-jugador: #a855f7;
+    background: var(--panel);
+    border: 2px solid var(--color-jugador);
+    border-radius: 14px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: 0 0 30px color-mix(in srgb, var(--color-jugador) 40%, transparent);
+}
+.cabecera-jugador { display: flex; justify-content: space-between; align-items: center; }
+.cabecera-jugador h3 { font-family: var(--fuente-titulo); font-size: 22px; letter-spacing: 2px; color: var(--color-jugador); text-shadow: 0 0 14px var(--color-jugador); }
+.lado-pantalla { font-family: var(--fuente-tecnica); font-size: 13px; font-weight: 700; letter-spacing: 1px; color: var(--texto-suave); }
+.teclas-jugador { font-size: 13px; color: var(--texto-suave); line-height: 2; }
+.teclas-jugador kbd { font-size: 11px; padding: 0 5px; min-width: 20px; }
+.vista-jugador-3d {
+    height: 190px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(168, 85, 247, 0.35);
+    overflow: hidden;
+}
+.resumen-jugador { font-family: var(--fuente-tecnica); font-size: 15px; color: var(--texto-suave); }
+.resumen-jugador b { color: #fff; }
+.grupo-opciones h4 { font-family: var(--fuente-tecnica); font-size: 12px; font-weight: 800; letter-spacing: 2px; color: var(--texto-tenue); text-transform: uppercase; margin-bottom: 6px; }
+.chips { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
+.chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    border-radius: 6px;
+    border: 1.5px solid rgba(168, 85, 247, 0.3);
+    background: rgba(255, 255, 255, 0.04);
+    color: #fff;
+    font-family: var(--fuente-tecnica);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: left;
+    transition: border-color 0.15s, background 0.15s;
+}
+.chip:hover { border-color: var(--cian); background: rgba(56, 189, 248, 0.1); }
+.chip[aria-checked="true"] { border-color: var(--color-jugador); background: color-mix(in srgb, var(--color-jugador) 22%, transparent); box-shadow: 0 0 14px color-mix(in srgb, var(--color-jugador) 50%, transparent); }
+.chip.bloqueado { opacity: 0.5; }
+.chip-icono svg { width: 20px; height: 20px; display: block; }
+.paleta-j { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+.muestra-j { aspect-ratio: 1.6; border-radius: 6px; border: 2.5px solid transparent; cursor: pointer; transition: transform 0.15s; }
+.muestra-j:hover { transform: scale(1.08); border-color: #fff; }
+.muestra-j[aria-checked="true"] { border-color: #fff; box-shadow: 0 0 16px currentColor; }
+
 @media (max-width: 900px) {
+    .dos-jugadores { grid-template-columns: 1fr; }
     .contenido { grid-template-columns: 1fr; }
     .detalle { position: static; }
     .barra-superior { flex-wrap: wrap; }

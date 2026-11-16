@@ -11,74 +11,83 @@
     <canvas id="lienzo-3d"></canvas>
     <div class="efecto-lineas"></div>
     <div class="efecto-vineta"></div>
-    <div id="destello-dano"></div>
+    <div class="division" id="division"></div>
 
     <!-- HUD de la carrera -->
     <div id="hud">
-        <div class="hud-superior">
-            <div class="hud-izquierda">
+        <!-- Datos comunes (centro arriba) -->
+        <div class="info-carrera">
+            <div class="circuito" id="hud-circuito">CIRCUITO</div>
+            <div class="datos">
+                <span>TIEMPO <b id="hud-tiempo">0:00</b></span>
+                <span>RIVALES <b id="hud-rivales">3</b></span>
+            </div>
+            <button class="boton boton-pausa" id="btn-pausa">⏸ Pausa <kbd>Esc</kbd></button>
+        </div>
+
+        <!-- Ayuda de teclas (solo 1 jugador) -->
+        <div class="ayuda-teclas" id="ayuda-teclas">
+            <kbd>W</kbd> Acelerar · <kbd>S</kbd> Frenar<br>
+            <kbd>A</kbd><kbd>D</kbd> Girar · <kbd>Espacio</kbd> Turbo<br>
+            <kbd>F</kbd> / Clic Disparar · <kbd>E</kbd> Habilidad<br>
+            <kbd>R</kbd> Volver a la pista
+        </div>
+
+        <!-- Aquí se agrega un HUD por jugador -->
+        <div id="vistas"></div>
+    </div>
+
+    <!-- HUD de un jugador -->
+    <template id="tpl-jugador">
+        <div class="vista-jugador">
+            <div class="destello-dano" data-h="destello"></div>
+            <div class="hud-columna">
+                <div class="etiqueta-jugador" data-h="etiqueta"></div>
                 <div class="caja-hud velocimetro">
-                    <div class="valor" id="hud-velocidad">0</div>
+                    <div class="valor" data-h="velocidad">0</div>
                     <div class="unidad">KM/H</div>
                 </div>
-                <div class="caja-hud radar"><canvas id="radar" width="160" height="110"></canvas></div>
-                <div class="caja-hud blindaje" id="hud-blindaje">
-                    <div class="cab"><span class="titulo">❤️ BLINDAJE</span><span id="hud-blindaje-valor">100 %</span></div>
-                    <div class="pista-barra"><div class="relleno" id="hud-blindaje-barra"></div></div>
+                <div class="caja-hud marcador">
+                    <div><span class="etq">POSICIÓN</span><b data-h="posicion">1 / 4</b></div>
+                    <div><span class="etq">VUELTA</span><b data-h="vuelta">1 / 3</b></div>
+                </div>
+                <div class="caja-hud radar"><canvas data-h="radar" width="160" height="110"></canvas></div>
+                <div class="caja-hud blindaje" data-h="blindajeCaja">
+                    <div class="cab"><span class="titulo">❤️ BLINDAJE</span><span data-h="blindajeValor">100 %</span></div>
+                    <div class="pista-barra"><div class="relleno" data-h="blindajeBarra"></div></div>
                 </div>
                 <div class="caja-hud blindaje turbo">
-                    <div class="cab"><span class="titulo">⚡ TURBO</span><span id="hud-turbo-valor">100 %</span></div>
-                    <div class="pista-barra"><div class="relleno" id="hud-turbo-barra"></div></div>
+                    <div class="cab"><span class="titulo">⚡ TURBO</span><span data-h="turboValor">100 %</span></div>
+                    <div class="pista-barra"><div class="relleno" data-h="turboBarra"></div></div>
                 </div>
             </div>
 
-            <div class="info-carrera">
-                <div class="circuito" id="hud-circuito">CIRCUITO</div>
-                <div class="datos">
-                    <span>POSICIÓN <b id="hud-posicion">4 / 4</b></span>
-                    <span>VUELTA <b id="hud-vuelta">1 / 3</b></span>
-                    <span>RIVALES <b id="hud-rivales">3</b></span>
-                    <span>TIEMPO <b id="hud-tiempo">0:00</b></span>
+            <div class="hud-inferior">
+                <div class="caja-equipo" data-h="armaCaja">
+                    <div class="icono-equipo" data-h="armaIcono"></div>
+                    <div class="texto-equipo">
+                        <span class="etq">ARMA · <kbd data-h="teclaArma">F</kbd></span>
+                        <span class="nombre" data-h="armaNombre">—</span>
+                        <div class="pista-barra"><div class="relleno" data-h="armaBarra"></div></div>
+                    </div>
+                </div>
+                <div class="caja-equipo" data-h="habCaja">
+                    <div class="icono-equipo" data-h="habIcono"></div>
+                    <div class="texto-equipo">
+                        <span class="etq">HABILIDAD · <kbd data-h="teclaHab">E</kbd></span>
+                        <span class="nombre" data-h="habNombre">—</span>
+                        <div class="pista-barra"><div class="relleno" data-h="habBarra"></div></div>
+                        <span class="estado" data-h="habEstado">Lista</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="hud-derecha">
-                <button class="boton" id="btn-pausa">⏸ Pausa <kbd>Esc</kbd></button>
-                <div class="ayuda-teclas">
-                    <kbd>W</kbd> Acelerar · <kbd>S</kbd> Frenar<br>
-                    <kbd>A</kbd><kbd>D</kbd> Girar · <kbd>Espacio</kbd> Turbo<br>
-                    <kbd>F</kbd> / Clic Disparar · <kbd>E</kbd> Habilidad<br>
-                    <kbd>R</kbd> Volver a la pista
-                </div>
-            </div>
+            <div class="aviso-pista" data-h="avisoPista" role="alert"></div>
         </div>
-
-        <div class="hud-inferior">
-            <div class="caja-equipo" id="hud-arma">
-                <div class="icono-equipo" id="hud-arma-icono"></div>
-                <div class="texto-equipo">
-                    <span class="etq">ARMA · <kbd>F</kbd></span>
-                    <span class="nombre" id="hud-arma-nombre">—</span>
-                    <div class="pista-barra"><div class="relleno" id="hud-arma-barra"></div></div>
-                </div>
-            </div>
-            <div class="caja-equipo" id="hud-habilidad">
-                <div class="icono-equipo" id="hud-hab-icono"></div>
-                <div class="texto-equipo">
-                    <span class="etq">HABILIDAD · <kbd>E</kbd></span>
-                    <span class="nombre" id="hud-hab-nombre">—</span>
-                    <div class="pista-barra"><div class="relleno" id="hud-hab-barra"></div></div>
-                    <span class="estado" id="hud-hab-estado">Lista</span>
-                </div>
-            </div>
-        </div>
-    </div>
+    </template>
 
     <!-- Cuenta regresiva -->
     <div id="cuenta-regresiva"><div class="numero" id="cuenta-numero">3</div></div>
-
-    <!-- Aviso: fuera de pista -->
-    <div id="aviso-pista" role="alert">⚠️ ¡Fuera de pista!<br><small>Volviendo a la pista…</small></div>
 
     <!-- Pausa -->
     <div class="capa-panel" id="panel-pausa" role="dialog" aria-modal="true" aria-labelledby="titulo-pausa">
@@ -102,12 +111,7 @@
             <div class="emblema" id="res-emblema">🏆</div>
             <h2 id="res-titulo">¡Victoria!</h2>
             <p class="subtitulo" id="res-subtitulo"></p>
-            <div class="tabla-resultados">
-                <div class="dato-resultado"><span class="num" id="res-posicion">1.º</span><span class="etq">Posición</span></div>
-                <div class="dato-resultado"><span class="num" id="res-vueltas">3 / 3</span><span class="etq">Vueltas</span></div>
-                <div class="dato-resultado"><span class="num" id="res-rivales">0</span><span class="etq">Rivales destruidos</span></div>
-                <div class="dato-resultado"><span class="num" id="res-tiempo">0:00</span><span class="etq">Tiempo</span></div>
-            </div>
+            <div id="res-tabla" class="contenedor-resultados"></div>
             <div class="premio" id="res-premio">+0 💎</div>
             <div class="acciones-resultado">
                 <button class="boton boton-exito" id="btn-reiniciar">↻ Reiniciar carrera</button>

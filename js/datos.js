@@ -24,7 +24,7 @@ const ICONOS = {
 
 // Menú principal: un solo término por sección
 const SECCIONES = [
-    { id: 'jugar',   nombre: 'Jugar',           icono: '▶',  detalle: '4 circuitos',  pagina: 'circuitos.html', principal: true },
+    { id: 'jugar',   nombre: 'Jugar',           icono: '▶',  detalle: '1 o 2 jugadores', pagina: 'circuitos.html', principal: true },
     { id: 'garaje',  nombre: 'Garaje',          icono: '🚗', detalle: 'Vehículos',    pagina: 'garaje.html' },
     { id: 'armas',   nombre: 'Armas',           icono: '🔫', detalle: 'Equipamiento', pagina: 'armas.html' },
     { id: 'pilotos', nombre: 'Pilotos',         icono: '👥', detalle: 'Habilidades',  pagina: 'pilotos.html' },
@@ -330,4 +330,22 @@ const CONTROLES = [
     ]}
 ];
 
-const buscarPor = (lista, id) => lista.find(x => x.id === id) || lista[0];
+// Teclas en el modo 2 jugadores (pantalla dividida)
+const CONTROLES_2J = [
+    { grupo: 'Jugador 1 · pantalla izquierda', filas: [
+        { teclas: ['W', 'A', 'S', 'D'], accion: 'Conducir' },
+        { teclas: ['Espacio'], accion: 'Turbo' },
+        { teclas: ['F', 'Clic'], accion: 'Disparar' },
+        { teclas: ['E'], accion: 'Habilidad' },
+        { teclas: ['R'], accion: 'Volver a la pista' }
+    ]},
+    { grupo: 'Jugador 2 · pantalla derecha', filas: [
+        { teclas: ['▲', '◀', '▼', '▶'], accion: 'Conducir' },
+        { teclas: ['Shift der.'], accion: 'Turbo' },
+        { teclas: ['Ctrl der.', '.'], accion: 'Disparar' },
+        { teclas: ['Enter'], accion: 'Habilidad' },
+        { teclas: ['Retroceso'], accion: 'Volver a la pista' }
+    ]}
+];
+
+const buscarPor =(lista, id) => lista.find(x => x.id === id) || lista[0];

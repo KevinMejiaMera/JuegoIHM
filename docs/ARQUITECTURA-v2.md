@@ -6,8 +6,11 @@
 Inicio (index.html)
 ├── Controles (controles.html?desde=inicio)
 └── Menú principal (menu.html)
-    ├── Jugar → Elige un circuito (circuitos.html)
-    │          └── Carrera (carrera.html)
+    ├── Jugar ▾ (se despliega)
+    │   ├── 1 jugador  → Elige un circuito (circuitos.html?modo=1) → Carrera (carrera.html?modo=1)
+    │   └── 2 jugadores → Elige un circuito (circuitos.html?modo=2)
+    │                     → Elegir jugadores (jugadores.html) → Carrera en pantalla dividida (carrera.html?modo=2)
+    │          Carrera:
     │              ├── Cuenta regresiva 3·2·1·¡YA!
     │              ├── Aviso: ¡Fuera de pista!
     │              ├── Pausa  → Continuar / Reiniciar carrera / Ver controles / Volver al menú
@@ -90,6 +93,20 @@ Estados que se repiten en las tarjetas: **En uso** / **Equipada** / **Elegido** 
 **Pilotos (tecla E):** Sobrecarga (turbo gratis y más fuerte), Puntería asistida (disparos teledirigidos), Escudo (inmune 4 s), Reparación (+40 % blindaje).
 
 **En la pista:** turbo con energía limitada, objetos de turbo (+50 %) y reparación (+30 %), picos, rivales que esquivan obstáculos, saltan rampas y **te disparan**, posición en tiempo real (1.º–4.º) y 3 vueltas.
+
+**Modo 2 jugadores (pantalla dividida):**
+
+| | Jugador 1 (izquierda) | Jugador 2 (derecha) |
+|---|---|---|
+| Conducir | W A S D | Flechas |
+| Turbo | Espacio | Shift derecho |
+| Disparar | F o clic | Ctrl derecho (o punto) |
+| Habilidad | E | Enter |
+| Volver a la pista | R | Retroceso |
+
+Cada jugador elige su vehículo, arma, piloto y pintura en **Elegir jugadores** (no se permite la misma pintura).
+Los dos corren contra 3 rivales y pueden dispararse entre sí (la mitad del daño). Si un jugador es destruido, reaparece a los 3 s.
+Gana quien complete primero las vueltas; la tabla de resultados muestra posición, vueltas, rivales destruidos y premio de cada uno.
 
 ## 5. Guion sugerido del video (máx. 2 min)
 

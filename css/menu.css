@@ -79,6 +79,32 @@
     box-shadow: 0 0 25px rgba(56, 189, 248, 0.4);
 }
 .opcion-menu.principal:hover { background: linear-gradient(90deg, rgba(56, 189, 248, 0.85) 0%, rgba(168, 85, 247, 0.55) 100%); }
+.opcion-menu.principal[aria-expanded="true"] { transform: skewX(-10deg) translateX(14px); box-shadow: 0 0 40px var(--cian-brillo); }
+
+/* Submenú de Jugar: 1 o 2 jugadores */
+.submenu-jugar { display: none; }
+.submenu-jugar.abierto { display: flex; flex-direction: column; gap: 8px; padding-left: 26px; }
+.opcion-modo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1.5px solid rgba(56, 189, 248, 0.5);
+    background: rgba(10, 8, 30, 0.92);
+    color: #fff;
+    cursor: pointer;
+    text-align: left;
+    backdrop-filter: blur(10px);
+    transition: transform 0.2s, background 0.2s, box-shadow 0.2s, border-color 0.2s;
+    animation: avisoEntra 0.25s ease-out;
+}
+.opcion-modo:hover,
+.opcion-modo:focus-visible { outline: none; transform: translateX(8px); border-color: var(--cian); background: rgba(56, 189, 248, 0.22); box-shadow: 0 0 22px var(--cian-brillo); }
+.opcion-modo .icono-modo { font-size: 26px; }
+.opcion-modo b { display: block; font-family: var(--fuente-titulo); font-size: 15px; letter-spacing: 1px; }
+.opcion-modo small { display: block; font-family: var(--fuente-tecnica); font-size: 12px; color: var(--texto-suave); letter-spacing: 0.5px; }
+
 .opcion-menu.destacado .detalle { background: var(--magenta); color: #fff; }
 
 .pista-vista {

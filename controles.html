@@ -32,7 +32,7 @@
     <script src="js/audio.js"></script>
     <script src="js/datos.js"></script>
     <script>
-        document.getElementById('grupos').innerHTML = CONTROLES.map(g => `
+        document.getElementById('grupos').innerHTML = [...CONTROLES, ...CONTROLES_2J].map(g => `
             <div class="grupo-controles">
                 <h3>${g.grupo}</h3>
                 ${g.filas.map(f => `
